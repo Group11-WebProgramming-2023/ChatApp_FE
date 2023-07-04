@@ -10,6 +10,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import { ROUTER } from "@/configs/routers";
 import { Login } from "./Login/Login";
 import ProtectedLayout from "@/layouts/ProtectedLayout";
+import { Dashboard } from "./Dashboard";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +18,8 @@ const router = createBrowserRouter(
       <Route element={<AuthLayout />}>
         <Route path={ROUTER.LOGIN} element={<Login />} />
       </Route>
-      <Route element={<ProtectedLayout />}>
+      <Route path={ROUTER.BASE} element={<ProtectedLayout />}>
+        <Route path={ROUTER.BASE} element={<Dashboard />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>

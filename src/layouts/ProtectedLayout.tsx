@@ -1,5 +1,6 @@
 import {
   Anchor,
+  AppShell,
   Avatar,
   Center,
   Image,
@@ -17,9 +18,11 @@ import {
   IconPhoneCall,
   IconSettings,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Logo from "@/assets/img/logo.png";
 import { ROUTER } from "@/configs/routers";
+import CustomLoader from "@/components/custom/CustomLoader";
+import { Outlet } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -84,7 +87,7 @@ const mockdata = [
 ];
 
 const ProtectedLayout = () => {
-  const [active, setActive] = useState(2);
+  const [active, setActive] = useState(0);
 
   const links = mockdata.map((link, index) => (
     <NavbarLink
@@ -96,24 +99,35 @@ const ProtectedLayout = () => {
   ));
 
   return (
-    <Navbar height={"100vh"} width={{ base: 80 }} p="md">
-      <Center>
-        <Anchor href={ROUTER.BASE}>
-          <Image src={Logo} width={50} />
-        </Anchor>
-      </Center>
-      <Navbar.Section grow mt={50}>
-        <Stack justify="center" spacing={0}>
-          {links}
-        </Stack>
-      </Navbar.Section>
-      <Navbar.Section>
-        <Stack justify="center" spacing={0}>
-          <Avatar />
-          <NavbarLink icon={IconLogout} label="Logout" />
-        </Stack>
-      </Navbar.Section>
-    </Navbar>
+    <AppShell
+      p={0}
+      m={0}
+      h={"100vh"}
+      navbar={
+        <Navbar height={"100vh"} width={{ base: 80 }} p="md">
+          <Center>
+            <Anchor href={ROUTER.BASE}>
+              <Image src={Logo} width={50} />
+            </Anchor>
+          </Center>
+          <Navbar.Section grow mt={50}>
+            <Stack justify="center" spacing={0}>
+              {links}
+            </Stack>
+          </Navbar.Section>
+          <Navbar.Section>
+            <Stack justify="center" spacing={0}>
+              <Avatar />
+              <NavbarLink icon={IconLogout} label="Logout" />
+            </Stack>
+          </Navbar.Section>
+        </Navbar>
+      }
+    >
+      <Suspense fallback={<CustomLoader />}>
+        <Outlet />
+      </Suspense>
+    </AppShell>
   );
 };
 
