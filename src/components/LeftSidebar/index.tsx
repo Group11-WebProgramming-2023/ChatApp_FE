@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 
-export const ChatLeftiSidebar = () => {
+export const LeftiSidebar = () => {
   return (
     <Stack p={"xs"} bg={"#F8FAFF"} h={"100vh"} spacing={"xs"}>
       <Text fw={"bold"} fz={"lg"} my={"sm"}>

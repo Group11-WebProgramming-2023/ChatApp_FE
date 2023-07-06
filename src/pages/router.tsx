@@ -4,13 +4,14 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import BaseLayout from "@/layouts/BaseLayout";
-import Page404 from "./Page404";
-import AuthLayout from "@/layouts/AuthLayout";
 import { ROUTER } from "@/configs/routers";
-import { Login } from "./Login/Login";
+import AuthLayout from "@/layouts/AuthLayout";
+import BaseLayout from "@/layouts/BaseLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout";
-import { Dashboard } from "./Dashboard";
+import { Home } from "./Home";
+import { Login } from "./Login/Login";
+import Page404 from "./Page404";
+import { CallLog } from "./CallLog";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,7 +20,8 @@ const router = createBrowserRouter(
         <Route path={ROUTER.LOGIN} element={<Login />} />
       </Route>
       <Route path={ROUTER.BASE} element={<ProtectedLayout />}>
-        <Route path={ROUTER.BASE} element={<Dashboard />} />
+        <Route path={ROUTER.BASE} element={<Home />} />
+        <Route path={ROUTER.CALL_LOG} element={<CallLog />} />
         <Route path="*" element={<Page404 />} />
       </Route>
     </Route>

@@ -1,3 +1,6 @@
+import Logo from "@/assets/img/logo.png";
+import { ROUTER } from "@/configs/routers";
+import { AppContainer } from "@/containers/AppContainer";
 import {
   Anchor,
   AppShell,
@@ -18,10 +21,7 @@ import {
   IconPhoneCall,
   IconSettings,
 } from "@tabler/icons-react";
-import { Suspense, useState } from "react";
-import Logo from "@/assets/img/logo.png";
-import { ROUTER } from "@/configs/routers";
-import CustomLoader from "@/components/custom/CustomLoader";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -79,17 +79,16 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
   );
 }
 
-const mockdata = [
-  { icon: IconMessage, label: "Message" },
-  { icon: IconPhoneCall, label: "Call" },
-  { icon: IconFriends, label: "Friends" },
-  { icon: IconSettings, label: "Settings" },
-];
-
 const ProtectedLayout = () => {
   const [active, setActive] = useState(0);
 
-  const links = mockdata.map((link, index) => (
+  const data = [
+    { icon: IconMessage, label: "Message" },
+    { icon: IconPhoneCall, label: "Call" },
+    { icon: IconFriends, label: "Friends" },
+  ];
+
+  const links = data.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
@@ -100,9 +99,8 @@ const ProtectedLayout = () => {
 
   return (
     <AppShell
-      p={0}
-      m={0}
-      h={"100vh"}
+      m={"0px"}
+      padding={"0px"}
       navbar={
         <Navbar height={"100vh"} width={{ base: 80 }} p="md">
           <Center>
@@ -116,17 +114,22 @@ const ProtectedLayout = () => {
             </Stack>
           </Navbar.Section>
           <Navbar.Section>
-            <Stack justify="center" spacing={0}>
-              <Avatar />
+            <Stack align="center" spacing={0}>
+              <Avatar
+                src={
+                  "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
+                }
+                radius={"xl"}
+              />
               <NavbarLink icon={IconLogout} label="Logout" />
             </Stack>
           </Navbar.Section>
         </Navbar>
       }
     >
-      <Suspense fallback={<CustomLoader />}>
+      <AppContainer>
         <Outlet />
-      </Suspense>
+      </AppContainer>
     </AppShell>
   );
 };
