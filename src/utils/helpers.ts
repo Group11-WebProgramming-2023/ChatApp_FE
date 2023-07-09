@@ -20,3 +20,19 @@ export const formatPhonenumber = (phone: string | undefined) => {
   if (!phone) return "";
   return _.replace(phone, /(\d{4})(\d{3})(\d{3})/, "$1.$2.$3");
 };
+
+export const linkify = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(
+    urlRegex,
+    (url) =>
+      `<a href="${url}" target="_blank">
+    ${url}
+  </a>`
+  );
+};
+
+export const containsUrl = (text: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  return urlRegex.test(text);
+};

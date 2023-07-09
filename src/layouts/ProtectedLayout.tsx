@@ -2,6 +2,12 @@ import Logo from "@/assets/img/logo.png";
 import { ROUTER } from "@/configs/routers";
 import { AppContainer } from "@/containers/AppContainer";
 import {
+  NewMessagePayload,
+  SocketEvents,
+  connectSocket,
+  socket,
+} from "@/utils/socket";
+import {
   Anchor,
   AppShell,
   Avatar,
@@ -19,10 +25,9 @@ import {
   IconLogout,
   IconMessage,
   IconPhoneCall,
-  IconSettings,
 } from "@tabler/icons-react";
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -96,6 +101,22 @@ const ProtectedLayout = () => {
       onClick={() => setActive(index)}
     />
   ));
+
+  const userId = localStorage.getItem("userId");
+
+  useLayoutEffect(() => {
+    if (userId) {
+      connectSocket(userId);
+      socket.on(SocketEvents.NEW_MESSAGE, (data: NewMessagePayload) =>
+        console.log(data)
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!localStorage.getItem("token")) {
+    return <Navigate to={ROUTER.LOGIN} />;
+  }
 
   return (
     <AppShell

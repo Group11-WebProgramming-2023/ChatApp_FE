@@ -1,6 +1,13 @@
 import { BaseModel } from ".";
 
 export interface IUser extends BaseModel {
-  name: string;
-  phone: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  status: IUserStatus;
+}
+
+export enum IUserStatus {
+  ONLINE = "ONLINE",
+  OFFLINE = "OFFLINE",
 }

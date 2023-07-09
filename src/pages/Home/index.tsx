@@ -1,6 +1,21 @@
-import { Stack, Text, TextInput, useMantineTheme } from "@mantine/core";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { RootState } from "@/redux/reducer";
+import { ConversationActions } from "@/redux/reducer/conversation/conversation.action";
+import { IConversation } from "@/types/models/IConversation";
+import {
+  Avatar,
+  Badge,
+  Card,
+  Col,
+  Grid,
+  Stack,
+  Text,
+  TextInput,
+  useMantineTheme,
+} from "@mantine/core";
 import { IconSearch } from "@tabler/icons-react";
-import { Avatar, Badge, Card, Col, Grid } from "@mantine/core";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const fakeData = [
   {
@@ -37,6 +52,16 @@ const fakeData = [
 
 export const Home = () => {
   const theme = useMantineTheme();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(ConversationActions.getDirectConversation());
+  }, [dispatch]);
+
+  const { conversations } = useAppSelector(
+    (state: RootState) => state.conversation
+  );
+  console.log(conversations);
 
   return (
     <Stack spacing={"md"}>
@@ -51,27 +76,13 @@ export const Home = () => {
       <Text fw={"bold"} color="dimmed" fz={"sm"}>
         Pinned
       </Text>
-      <Stack>
-        {fakeData.map((item) => (
-          <ChartCard
-            username={item.username}
-            avatar={item.avatar}
-            time={item.time}
-            message={item.message}
-          />
-        ))}
-      </Stack>
+
       <Text fw={"bold"} color="dimmed" fz={"sm"}>
         All chats
       </Text>
       <Stack>
-        {fakeData.slice(0, 1).map((item) => (
-          <ChartCard
-            username={item.username}
-            avatar={item.avatar}
-            time={item.time}
-            message={item.message}
-          />
+        {conversations.map((conversation) => (
+          <ChartCard conversation={conversation} />
         ))}
       </Stack>
     </Stack>
@@ -79,13 +90,12 @@ export const Home = () => {
 };
 
 interface ChatCardProps {
-  username: string;
-  avatar: string;
-  time: string;
-  message: string;
+  conversation: IConversation;
 }
 
-const ChartCard = ({ username, avatar, time, message }: ChatCardProps) => {
+const ChartCard = ({ conversation }: ChatCardProps) => {
+  const userId = localStorage.getItem("userId");
+
   return (
     <Card p={"xs"} fz={"xs"} radius={"md"} bg={"white"}>
       <Grid align="center">
@@ -99,18 +109,28 @@ const ChartCard = ({ username, avatar, time, message }: ChatCardProps) => {
         </Col>
         <Col span={7} pl={"sm"}>
           <Stack spacing={0}>
-            <Text fw={600}>{username}</Text>
-            <Text color="dimmed">{message}</Text>
+            <Text fw={600}>
+              {
+                conversation.participants.filter(
+                  (item) => item._id !== userId
+                )[0].firstName
+              }
+            </Text>
+            <Text color="dimmed">
+              {conversation.messages[conversation.messages.length - 1].from ==
+                userId && `You: `}
+              {conversation.messages[conversation.messages.length - 1].text}
+            </Text>
           </Stack>
         </Col>
-        <Col span={3}>
+        {/* <Col span={3}>
           <Stack spacing={0} align="center">
-            <Text fw={600}>{time}</Text>
+            <Text fw={600}>{}</Text>
             <Badge color="blue" px={"xs"}>
               3
             </Badge>
           </Stack>
-        </Col>
+        </Col> */}
       </Grid>
     </Card>
   );

@@ -1,12 +1,12 @@
 import { BaseModel } from ".";
 
 export interface IMessage extends BaseModel {
-  content: string;
-  time: string;
+  from: string;
+  to: string;
+  text: string;
   type: IMessageType;
 }
 
 export enum IMessageType {
-  OUTGOING = "OUTGOING",
-  INCOMING = "INCOMING",
+  TEXT = "TEXT",
 }

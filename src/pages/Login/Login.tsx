@@ -1,3 +1,6 @@
+import { LoginPayload } from "@/configs/api/payload";
+import { ROUTER } from "@/configs/routers";
+import { useAuthContext } from "@/hooks/context";
 import {
   Box,
   Button,
@@ -8,15 +11,27 @@ import {
   TextInput,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
-  const form = useForm({
-    initialValues: { username: "", password: "" },
+  const { login } = useAuthContext();
+  const navigate = useNavigate();
+
+  const form = useForm<LoginPayload>({
+    initialValues: { email: "", password: "" },
     validate: {
-      username: isNotEmpty("Username is required"),
+      email: isNotEmpty("Email is required"),
       password: isNotEmpty("Password is required"),
     },
   });
+
+  const handleLogin = (values: LoginPayload) => {
+    login(values, {
+      onSuccess: () => {
+        navigate(ROUTER.BASE);
+      },
+    });
+  };
 
   return (
     <Box pos="relative">
@@ -28,19 +43,29 @@ export const Login = () => {
       </Text>
       <Center mt={"sm"}>
         <Card shadow="md" w={360}>
-          <form onSubmit={form.onSubmit((values) => console.log(values))}>
+          <form
+            id="login"
+            onSubmit={form.onSubmit((values) => handleLogin(values))}
+          >
             <Stack>
               <TextInput
-                label="Username"
-                placeholder="Input your username"
-                {...form.getInputProps("username")}
+                label="Email"
+                placeholder="Input your email"
+                {...form.getInputProps("email")}
               />
               <TextInput
                 label="Password"
+                type="password"
                 placeholder="Input your password"
                 {...form.getInputProps("password")}
               />
-              <Button color="blue.9" variant="filled" fullWidth type="submit">
+              <Button
+                color="blue.9"
+                variant="filled"
+                fullWidth
+                type="submit"
+                form="login"
+              >
                 Login
               </Button>
             </Stack>
