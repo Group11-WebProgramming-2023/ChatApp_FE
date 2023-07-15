@@ -3,7 +3,6 @@ import Logo from "@/assets/img/logo.png";
 import { CallNotification } from "@/components/Call/CallNotification";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
-import { CallAction } from "@/redux/reducer/call/call.action";
 import { CallActionType } from "@/redux/reducer/call/call.type";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 import { ROUTER } from "@/routes/path";
@@ -14,7 +13,8 @@ import {
   AppShell,
   Avatar,
   Center,
-  Container,
+  Col,
+  Grid,
   Image,
   Modal,
   Navbar,
@@ -33,7 +33,7 @@ import {
   IconPhone,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -143,7 +143,7 @@ const ProtectedLayout = () => {
     />
   ));
 
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId") || "";
 
   useEffect(() => {
     if (userId && !socket) {
@@ -154,7 +154,9 @@ const ProtectedLayout = () => {
         renderNotification("You have new friend request", NotiType.SUCCESS);
       });
 
-      socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {});
+      socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
+        console.log(data);
+      });
 
       socket.on(SocketEvents.START_CHAT, (data) => {
         dispatch({
@@ -169,16 +171,22 @@ const ProtectedLayout = () => {
       });
 
       socket.on(SocketEvents.NEW_MESSAGE, (data) => {
-        console.log(data);
-        // dispatch({
-        //   type: ConversationActionType.NEW_MESSAGE,
-        //   payload: data,
-        // });
+        dispatch({
+          type: ConversationActionType.NEW_MESSAGE,
+          payload: data,
+        });
       });
 
       socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
         dispatch({
           type: CallActionType.PUSH_TO_AUDIO_QUEUE,
+          payload: data,
+        });
+      });
+
+      socket.emit("get_direct_conversations", { user_id: userId }, (data) => {
+        dispatch({
+          type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS,
           payload: data,
         });
       });
@@ -197,14 +205,16 @@ const ProtectedLayout = () => {
   const { open_audio_notification_modal } = useAppSelector(
     (state: RootState) => state.call
   );
-  console.log(open_audio_notification_modal);
+
   const [openedCallNoti, { close: closeCallNoti, open: openCallNoti }] =
     useDisclosure(open_audio_notification_modal);
   return (
     <>
       <AppShell
-        m={0}
-        p={0}
+        m={"0px"}
+        p={"0"}
+        padding={0}
+        h={"100vh"}
         navbar={
           <Navbar height={"100vh"} width={{ base: 80 }} p="md">
             <Center>

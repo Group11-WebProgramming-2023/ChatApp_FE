@@ -25,6 +25,7 @@ export const Footer = ({ conversationId }: Props) => {
   const [_message, setMessage] = useState<string>("");
 
   const handleSendMessage = () => {
+    console.log("clgt");
     if (userId) {
       socket.emit("text_message", {
         message: linkify(_message),
@@ -33,6 +34,8 @@ export const Footer = ({ conversationId }: Props) => {
         to: "64a7abd375f8f7a44d322cdc",
         type: containsUrl(_message) ? "Link" : "Text",
       });
+      console.log("clgt");
+      setMessage("");
     }
     // dispatch(ConversationActions.getDirectConversation());
   };
