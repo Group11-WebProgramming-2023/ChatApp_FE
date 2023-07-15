@@ -8,13 +8,11 @@ import Router from "./routes";
 import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <ReduxProvider store={store}>
-      <BrowserRouter>
-        <AuthProvider>
-          <Router />
-        </AuthProvider>
-      </BrowserRouter>
-    </ReduxProvider>
-  </React.StrictMode>
+  <ReduxProvider store={store}>
+    <BrowserRouter>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </BrowserRouter>
+  </ReduxProvider>
 );

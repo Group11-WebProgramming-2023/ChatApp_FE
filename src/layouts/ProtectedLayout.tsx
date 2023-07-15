@@ -1,9 +1,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Logo from "@/assets/img/logo.png";
+import { CallModal } from "@/components/Call/CallModal";
 import { CallNotification } from "@/components/Call/CallNotification";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { CallAction } from "@/redux/reducer/call/call.action";
+import callReducer from "@/redux/reducer/call/call.reducer";
 import { CallActionType } from "@/redux/reducer/call/call.type";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 import { ROUTER } from "@/routes/path";
@@ -179,15 +181,15 @@ const ProtectedLayout = () => {
       socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
         dispatch({
           type: CallActionType.PUSH_TO_AUDIO_QUEUE,
-          payload: data,
+          payload: { data, incoming: true },
         });
       });
     }
     return () => {
-      socket.off(SocketEvents.NEW_FRIEND_REQUEST);
-      socket.off(SocketEvents.AUDIO_CALL_NOTIFICATION);
-      socket.off(SocketEvents.START_CHAT);
-      socket.off(SocketEvents.NEW_MESSAGE);
+      socket?.off(SocketEvents.NEW_FRIEND_REQUEST);
+      socket?.off(SocketEvents.AUDIO_CALL_NOTIFICATION);
+      socket?.off(SocketEvents.START_CHAT);
+      socket?.off(SocketEvents.NEW_MESSAGE);
     };
   }, [socket]);
 
@@ -198,8 +200,14 @@ const ProtectedLayout = () => {
     (state: RootState) => state.call
   );
   console.log(open_audio_notification_modal);
-  const [openedCallNoti, { close: closeCallNoti, open: openCallNoti }] =
-    useDisclosure(open_audio_notification_modal);
+  // const [openedCallNoti, { close: closeCallNoti, open: openCallNoti }] =
+  //   useDisclosure(open_audio_notification_modal);
+
+  const { open_audio_modal } = useAppSelector((state: RootState) => state.call);
+  // const [openedCallModal, { close: closeCallModal, open: openCallModal }] =
+  //   useDisclosure(open_audio_modal);
+
+  console.log(open_audio_modal);
   return (
     <>
       <AppShell
@@ -234,8 +242,38 @@ const ProtectedLayout = () => {
         <Outlet />
       </AppShell>
 
-      <Modal centered opened={openedCallNoti} onClose={closeCallNoti}>
-        <CallNotification close={closeCallNoti} />
+      <Modal
+        centered
+        opened={open_audio_notification_modal}
+        onClose={() =>
+          dispatch({ type: CallActionType.CLOSE_AUDIO_NOTI_MODAL })
+        }
+      >
+        <CallNotification
+          close={() =>
+            dispatch({ type: CallActionType.CLOSE_AUDIO_NOTI_MODAL })
+          }
+        />
+      </Modal>
+
+      <Modal
+        centered
+        opened={open_audio_modal}
+        onClose={() =>
+          dispatch({
+            type: CallActionType.UPDATE_AUDIO_CALL_MODAL,
+            payload: false,
+          })
+        }
+      >
+        <CallModal
+          close={() =>
+            dispatch({
+              type: CallActionType.UPDATE_AUDIO_CALL_MODAL,
+              payload: false,
+            })
+          }
+        />
       </Modal>
     </>
   );

@@ -113,13 +113,11 @@ export const CallModal = ({ close }: Props) => {
     });
 
     // make a POST API call to server & fetch token
-
     let zego_token: string;
 
     async function fetchToken() {
-      // You can await here
       const response = await axios.post(
-        "/user/generate-zego-token",
+        "http://localhost:8000/user/generate-zego-token",
         {
           userId: userID,
           room_id: roomID,
@@ -133,12 +131,10 @@ export const CallModal = ({ close }: Props) => {
       );
       console.log(response, "TOKEN RESPONSE");
       zego_token = response.data.token;
-      // ...
     }
     fetchToken();
 
     // Step 2 => Check browser compatibility
-
     zg.checkSystemRequirements()
       .then((result) => {
         // The [result] indicates whether it is compatible. It indicates WebRTC is supported when the [webRTC] is [true]. For more results, see the API documents.
