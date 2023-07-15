@@ -53,12 +53,16 @@ const conversationReducer: Reducer<ConversationState, ConversationAction> = (
 
       return { ...state, direct_chat: updatedDirectChat };
     }
-    case ConversationActionType.SELECT_CONVERSATION:
+    case ConversationActionType.SELECT_CONVERSATION: {
+      const updatedDirectChat = {
+        ...state.direct_chat,
+        current_conversation: action.payload,
+      };
       return {
         ...state,
-        selected_conversation_id: action.payload.conversation_id,
-        seleted_to_id: action.payload.to_id,
+        direct_chat: updatedDirectChat,
       };
+    }
     default:
       return state;
   }

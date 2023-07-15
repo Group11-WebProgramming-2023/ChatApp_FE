@@ -6,7 +6,7 @@ import { RootState } from "..";
 export interface ConversationState {
   direct_chat: {
     conversations: IConversation[];
-    current_conversation: IConversation | unknown;
+    current_conversation: IConversation | null;
     current_messages: IMessage[];
   };
   group_chat: unknown;
@@ -33,7 +33,7 @@ export interface SelectConversationPayload {
 
 export interface SelectConversation {
   type: ConversationActionType.SELECT_CONVERSATION;
-  payload: SelectConversationPayload;
+  payload: IConversation;
 }
 
 export interface GetMessages {

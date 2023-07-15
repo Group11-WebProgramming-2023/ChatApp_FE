@@ -39,8 +39,9 @@ export const GeneralApp = () => {
   const { conversations } = useAppSelector(
     (state: RootState) => state.conversation.direct_chat
   );
-  const { selected_conversation_id } = useAppSelector(
-    (state: RootState) => state.conversation
+  const selected_conversation_id = useAppSelector(
+    (state: RootState) =>
+      state.conversation.direct_chat.current_conversation?._id
   );
 
   return (
@@ -421,20 +422,14 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
   const userId = localStorage.getItem("userId");
 
   const dispatch = useAppDispatch();
-  const { selected_conversation_id } = useAppSelector(
-    (state: RootState) => state.conversation
+  const selected_conversation_id = useAppSelector(
+    (state: RootState) =>
+      state.conversation.direct_chat.current_conversation?._id
   );
 
   const handleSelectConversation = () => {
     if (conversation._id) {
-      dispatch(
-        ConversationAction.SelectConversation({
-          conversation_id: conversation._id,
-          to_id:
-            conversation.participants.filter((item) => item._id !== userId)[0]
-              ._id || "",
-        })
-      );
+      dispatch(ConversationAction.SelectConversation(conversation));
       socket.emit(
         SocketEvents.GET_MESSAGES,
         {

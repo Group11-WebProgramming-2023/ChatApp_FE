@@ -13,32 +13,42 @@ import { containsUrl } from "../../utils/helpers";
 import { socket } from "@/utils/socket";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
+import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 
 export const Footer = () => {
   const userId = localStorage.getItem("userId");
   const theme = useMantineTheme();
   const dispatch = useAppDispatch();
-  const { selected_conversation_id, seleted_to_id } = useAppSelector(
-    (state: RootState) => state.conversation
+  const { current_conversation } = useAppSelector(
+    (state: RootState) => state.conversation.direct_chat
   );
   const [_message, setMessage] = useState<string>("");
 
   const handleSendMessage = () => {
-    if (userId) {
+    if (userId && current_conversation) {
       socket.emit("text_message", {
         message: linkify(_message),
-        conversation_id: selected_conversation_id,
+        conversation_id: current_conversation._id || "",
         from: userId,
-        to: seleted_to_id,
+        to:
+          current_conversation.participants.filter((el) => el._id !== userId)[0]
+            ._id || "",
         type: containsUrl(_message) ? "Link" : "Text",
       });
+
+      // socket.emit("get_direct_conversations", { user_id: userId }, (data) => {
+      //   dispatch({
+      //     type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS,
+      //     payload: data,
+      //   });
+      // });
       setMessage("");
     }
     // dispatch(ConversationActions.getDirectConversation());
   };
 
   return (
-    <Group bg={"#F7F9FD"} h={"10%"} py={"md"} px={"xl"}>
+    <Group bg={"#F7F9FD"} h={"10%"} p={"sm"}>
       <Grid w={"100%"}>
         <Col span={11}>
           <Input
@@ -56,9 +66,10 @@ export const Footer = () => {
         </Col>
         <Col span={1}>
           <Button
-            color="blue.4"
+            color="blue.5"
             radius={"md"}
             onClick={() => handleSendMessage()}
+            disabled={_message.length === 0 ? true : false}
           >
             <IconSend size={"0.8rem"} />
           </Button>

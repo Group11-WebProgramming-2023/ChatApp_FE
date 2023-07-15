@@ -3,9 +3,10 @@ import {
   ConversationActionType,
   SelectConversationPayload,
 } from "./conversation.type";
+import { IConversation } from "@/types/models/IConversation";
 
 const SelectConversation =
-  (payload: SelectConversationPayload) => async (dispatch: AppDispatch) => {
+  (payload: IConversation) => async (dispatch: AppDispatch) => {
     dispatch({
       type: ConversationActionType.SELECT_CONVERSATION,
       payload: payload,

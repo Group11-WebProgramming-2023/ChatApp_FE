@@ -1,31 +1,37 @@
-import { Avatar, Group, Modal, Stack, Text } from "@mantine/core";
+import {
+  Avatar,
+  Group,
+  Modal,
+  Stack,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
 import { IconPhone, IconSearch, IconVideo } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { CallNotification } from "../Call/CallNotification";
+import { useAppSelector } from "@/hooks/redux";
+import { RootState } from "@/redux/reducer";
 
 export const Header = () => {
   const [opened, { close, open }] = useDisclosure();
+  const theme = useMantineTheme();
+
+  const { current_conversation } = useAppSelector(
+    (state: RootState) => state.conversation.direct_chat
+  );
+  const user = current_conversation?.participants.filter(
+    (el) => el._id !== localStorage.getItem("userId")
+  )[0];
+
   return (
     <>
-      <Group
-        position="apart"
-        align="center"
-        bg={"#F7F9FD"}
-        h={"10%"}
-        px={"xl"}
-        py={"xs"}
-      >
+      <Group position="apart" align="center" bg={"#F7F9FD"} h={"10%"} p="sm">
         <Group align="center">
-          <Avatar
-            src={
-              "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
-            }
-            radius={"xl"}
-            size={"md"}
-          />
+          <Avatar src={""} radius={"xl"} size={"lg"} />
           <Stack spacing={0}>
             <Text fw={600} fz={"sm"}>
-              Hiếu Đinh
+              {`${user?.firstName} 
+              ${user?.lastName}`}
             </Text>
             <Text fz={"xs"} color="dimmed">
               Online
@@ -33,9 +39,22 @@ export const Header = () => {
           </Stack>
         </Group>
         <Group spacing={"xl"}>
-          <IconVideo size={"1rem"} cursor={"pointer"} />
-          <IconPhone size={"1rem"} cursor={"pointer"} onClick={open} />
-          <IconSearch size={"1rem"} cursor={"pointer"} />
+          <IconVideo
+            size={"1.2rem"}
+            cursor={"pointer"}
+            color={theme.colors.blue[5]}
+          />
+          <IconPhone
+            size={"1.2rem"}
+            cursor={"pointer"}
+            onClick={open}
+            color={theme.colors.blue[5]}
+          />
+          <IconSearch
+            size={"1.2rem"}
+            cursor={"pointer"}
+            color={theme.colors.blue[5]}
+          />
         </Group>
       </Group>
 
