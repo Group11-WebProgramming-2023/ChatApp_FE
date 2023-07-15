@@ -2,7 +2,11 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useCallApi } from "@/configs/api";
 import { API_URLS } from "@/configs/api/endpoint";
-import { LoginPayload } from "@/configs/api/payload";
+import {
+  LoginPayload,
+  RegisterPayload,
+  VerifyOTPPayload,
+} from "@/configs/api/payload";
 import { IUser } from "@/types/models/IUser";
 import { Callback } from "@/types/others/callback";
 import { NotiType, renderNotification } from "@/utils/notifications";
@@ -31,7 +35,9 @@ function authReducer(state = initialState, action: AuthActionType): AuthState {
       return { ...state, isFetching: true };
     case AuthAction.AUTH_ACTION_FAILURE:
     case AuthAction.LOGIN_SUCCESS:
+    case AuthAction.REGISTER_SUCCESS:
     case AuthAction.UPDATE_PROFILE:
+    case AuthAction.CONFIRM_OTP_SUCCESS:
     case AuthAction.CHANGE_PWD:
       return { ...state, isFetching: false };
     case AuthAction.GET_AUTHORITIES:
@@ -61,7 +67,7 @@ function useAuthReducer(_state = initialState) {
       });
       saveToken(response.data.token);
       saveUserId(response.data.user_id);
-      renderNotification("Đăng nhập thành công", NotiType.SUCCESS);
+      renderNotification("Login successfully", NotiType.SUCCESS);
       cb?.onSuccess?.();
     } else {
       dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
@@ -70,24 +76,67 @@ function useAuthReducer(_state = initialState) {
     }
   };
 
+  const register = async (payload: RegisterPayload, cb?: Callback) => {
+    dispatch({ type: AuthAction.AUTH_ACTION_PENDING });
+
+    const api = API_URLS.Auth.register();
+
+    const { response, error } = await useCallApi({ ...api, payload });
+
+    if (!error && response?.status === 200) {
+      dispatch({
+        type: AuthAction.REGISTER_SUCCESS,
+      });
+      renderNotification("Register successfully", NotiType.SUCCESS);
+      cb?.onSuccess?.();
+    } else {
+      dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
+      renderNotification("Register fail", NotiType.ERROR);
+      cb?.onError?.();
+    }
+  };
+
+  const confirmOTP = async (payload: VerifyOTPPayload, cb?: Callback) => {
+    dispatch({ type: AuthAction.AUTH_ACTION_PENDING });
+
+    const api = API_URLS.Auth.verifyOTP();
+
+    const { response, error } = await useCallApi({ ...api, payload });
+
+    if (!error && response?.status === 200) {
+      dispatch({
+        type: AuthAction.CONFIRM_OTP_SUCCESS,
+      });
+      renderNotification("Verify OTP successfully", NotiType.SUCCESS);
+      cb?.onSuccess?.();
+    } else {
+      dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
+      renderNotification("Verify OTP fail", NotiType.ERROR);
+      cb?.onError?.();
+    }
+  };
   const logout = () => {
     dispatch({ type: AuthAction.LOGOUT });
     localStorage.removeItem("token");
     localStorage.removeItem("authUser");
-    renderNotification("Đăng xuất thành công", NotiType.SUCCESS);
+    renderNotification("Logout successfully", NotiType.SUCCESS);
   };
 
   return {
     state,
     login,
     logout,
+    register,
+    confirmOTP,
   };
 }
 
 export const AuthContext = createContext<ReturnType<typeof useAuthReducer>>({
   state: initialState,
   login: async () => {},
+  register: async () => {},
   logout: () => {},
+  confirmOTP: async () => {},
 });
 
 interface Props {

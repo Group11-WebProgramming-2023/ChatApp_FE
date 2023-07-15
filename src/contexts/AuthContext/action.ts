@@ -1,16 +1,18 @@
-import { IUser } from '@/types/models/IUser';
-import { Authorities } from '.';
+import { IUser } from "@/types/models/IUser";
+import { Authorities } from ".";
 
 export enum AuthAction {
-  AUTH_ACTION_PENDING = 'AUTH_ACTION_PENDING',
-  AUTH_ACTION_FAILURE = 'AUTH_ACTION_FAILURE',
+  AUTH_ACTION_PENDING = "AUTH_ACTION_PENDING",
+  AUTH_ACTION_FAILURE = "AUTH_ACTION_FAILURE",
 
-  LOGIN_SUCCESS = 'LOGIN_SUCCESS',
-  LOGOUT = 'LOGOUT',
-  GET_AUTHORITIES = 'GET_AUTHORITIES',
-  GET_PROFILE = 'GET_PROFILE',
-  UPDATE_PROFILE = 'UPDATE_PROFILE',
-  CHANGE_PWD = 'CHANGE_PWD'
+  LOGIN_SUCCESS = "LOGIN_SUCCESS",
+  REGISTER_SUCCESS = "REGISTER_SUCCESS",
+  CONFIRM_OTP_SUCCESS = "CONFIRM_OTP_SUCCESS",
+  LOGOUT = "LOGOUT",
+  GET_AUTHORITIES = "GET_AUTHORITIES",
+  GET_PROFILE = "GET_PROFILE",
+  UPDATE_PROFILE = "UPDATE_PROFILE",
+  CHANGE_PWD = "CHANGE_PWD",
 }
 
 interface AuthActionPending {
@@ -23,6 +25,14 @@ interface AuthActionFailure {
 
 interface LoginSuccess {
   type: AuthAction.LOGIN_SUCCESS;
+}
+
+interface RegisterSuccess {
+  type: AuthAction.REGISTER_SUCCESS;
+}
+
+interface ConfirmOTPSuccess {
+  type: AuthAction.CONFIRM_OTP_SUCCESS;
 }
 
 interface Logout {
@@ -55,4 +65,6 @@ export type AuthActionType =
   | GetAuthorities
   | GetProfile
   | UpdateProfile
-  | ChangePwd;
+  | ChangePwd
+  | RegisterSuccess
+  | ConfirmOTPSuccess;

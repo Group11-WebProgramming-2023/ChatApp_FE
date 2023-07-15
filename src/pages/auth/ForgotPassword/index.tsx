@@ -1,6 +1,4 @@
-import { LoginPayload } from "@/configs/api/payload";
-import { ROUTER } from "@/configs/routers";
-import { useAuthContext } from "@/hooks/context";
+import { ForgotPasswordPayload } from "@/configs/api/payload";
 import {
   Box,
   Button,
@@ -13,39 +11,33 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
 
-export const Login = () => {
-  const { login } = useAuthContext();
+export const ForgotPassword = () => {
   const navigate = useNavigate();
 
-  const form = useForm<LoginPayload>({
-    initialValues: { email: "", password: "" },
+  const form = useForm<ForgotPasswordPayload>({
+    initialValues: { email: "" },
     validate: {
       email: isNotEmpty("Email is required"),
-      password: isNotEmpty("Password is required"),
     },
   });
 
-  const handleLogin = (values: LoginPayload) => {
-    login(values, {
-      onSuccess: () => {
-        navigate(ROUTER.BASE);
-      },
-    });
+  const handleForgotPassword = (values: ForgotPasswordPayload) => {
+   
   };
 
   return (
     <Box pos="relative">
       <Text tt="uppercase" align="center" fw="700" fz={28}>
-        Login
+        Forgot your password
       </Text>
       <Text align="center" color="dimmed" fz="xl">
-        Welcome to the chat app. Login and start chatting
+        Submit your email to reset the password
       </Text>
       <Center mt={"sm"}>
         <Card shadow="md" w={360}>
           <form
-            id="login"
-            onSubmit={form.onSubmit((values) => handleLogin(values))}
+            id="forgot-pwd"
+            onSubmit={form.onSubmit((values) => handleForgotPassword(values))}
           >
             <Stack>
               <TextInput
@@ -53,20 +45,14 @@ export const Login = () => {
                 placeholder="Input your email"
                 {...form.getInputProps("email")}
               />
-              <TextInput
-                label="Password"
-                type="password"
-                placeholder="Input your password"
-                {...form.getInputProps("password")}
-              />
               <Button
                 color="blue.9"
                 variant="filled"
                 fullWidth
                 type="submit"
-                form="login"
+                form="forgot-pwd"
               >
-                Login
+                Send
               </Button>
             </Stack>
           </form>

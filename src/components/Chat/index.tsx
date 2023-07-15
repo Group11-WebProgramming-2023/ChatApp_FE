@@ -5,18 +5,19 @@ import { useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { Stack } from "@mantine/core";
 
-export const ChatContainer = () => {
-  // const { conversations } = useAppSelector(
-  //   (state: RootState) => state.conversation
-  // );
-  // console.log(
-  //   "🚀 ~ file: ChatContainer.tsx:10 ~ ChatContainer ~ conversations:",
-  //   conversations
-  // );
+export const Chat = () => {
+  const { selected_conversation_id } = useAppSelector(
+    (state: RootState) => state.conversation
+  );
+
+  const { current_messages } = useAppSelector(
+    (state: RootState) => state.conversation.direct_chat
+  );
+
   return (
     <Stack h={"100vh"} m={0} p={0}>
       <Header />
-      {/* <Body messages={conversations[0]?.messages} /> */}
+      <Body messages={current_messages} />
       <Footer />
     </Stack>
   );

@@ -4,11 +4,15 @@ import {
   ConversationActionType,
   ConversationState,
 } from "./conversation.type";
-import { stat } from "fs";
 
 const initialState: ConversationState = {
-  isFetching: false,
-  conversations: [],
+  direct_chat: {
+    conversations: [],
+    current_conversation: null,
+    current_messages: [],
+  },
+  group_chat: {},
+  selected_conversation_id: "",
 };
 
 const conversationReducer: Reducer<ConversationState, ConversationAction> = (
@@ -16,20 +20,40 @@ const conversationReducer: Reducer<ConversationState, ConversationAction> = (
   action
 ) => {
   switch (action.type) {
-    case ConversationActionType.CONVERSATION_ACTION_PENDING:
-      return { ...state, isFetching: true };
-    case ConversationActionType.CONVERSATION_ACTION_FAILURE:
-      return { ...state, isFetching: false };
-    case ConversationActionType.GET_DIRECT_CONVERSATION:
-      return { ...state, isFetching: false, conversations: action.payload };
-    case ConversationActionType.NEW_MESSAGE: {
-      const newConversations = state.conversations.map((conversation) => {
-        if (conversation._id === action.payload.conversation_id) {
-          conversation.messages.push(action.payload);
-        }
-      });
-      return state;
+    case ConversationActionType.FETCH_DIRECT_CONVERSATIONS: {
+      const updatedDirectChat = {
+        ...state.direct_chat,
+        conversations: action.payload,
+      };
+      return { ...state, direct_chat: updatedDirectChat };
     }
+
+    case ConversationActionType.GET_MESSAGES: {
+      const updatedDirectChat = {
+        ...state.direct_chat,
+        current_messages: action.payload,
+      };
+
+      return {
+        ...state,
+        direct_chat: updatedDirectChat,
+      };
+    }
+
+    case ConversationActionType.NEW_MESSAGE: {
+      const updatedCurrentMessage = [
+        ...state.direct_chat.current_messages,
+        action.payload.message,
+      ];
+      const updatedDirectChat = {
+        ...state.direct_chat,
+        current_messages: updatedCurrentMessage,
+      };
+
+      return { ...state, direct_chat: updatedDirectChat };
+    }
+    case ConversationActionType.SELECT_CONVERSATION:
+      return { ...state, selected_conversation_id: action.payload };
     default:
       return state;
   }

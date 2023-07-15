@@ -11,6 +11,7 @@ import { IconLink, IconMoodSmile, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { containsUrl } from "../../utils/helpers";
 import { socket } from "@/utils/socket";
+import { useAppDispatch } from "@/hooks/redux";
 
 interface Props {
   conversationId?: string;
@@ -19,6 +20,8 @@ interface Props {
 export const Footer = ({ conversationId }: Props) => {
   const userId = localStorage.getItem("userId");
   const theme = useMantineTheme();
+  const dispatch = useAppDispatch();
+
   const [_message, setMessage] = useState<string>("");
 
   const handleSendMessage = () => {
@@ -31,6 +34,7 @@ export const Footer = ({ conversationId }: Props) => {
         type: containsUrl(_message) ? "Link" : "Text",
       });
     }
+    // dispatch(ConversationActions.getDirectConversation());
   };
 
   return (

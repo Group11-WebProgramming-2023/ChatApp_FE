@@ -1,42 +1,48 @@
 import { IConversation } from "@/types/models/IConversation";
+import { IMessage, INewMessage } from "@/types/models/IMessage";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
-import { NewMessagePayload } from "@/utils/socket";
 
 export interface ConversationState {
-  isFetching: boolean;
-  conversations: IConversation[];
+  direct_chat: {
+    conversations: IConversation[];
+    current_conversation: IConversation | unknown;
+    current_messages: IMessage[];
+  };
+  group_chat: unknown;
+  selected_conversation_id: string;
 }
 
 export enum ConversationActionType {
-  CONVERSATION_ACTION_PENDING = "CONVERSATION_ACTION_PENDING",
-  CONVERSATION_ACTION_FAILURE = "CONVERSATION_ACTION_FAILURE",
-  GET_DIRECT_CONVERSATION = "GET_DIRECT_CONVERSATION",
+  FETCH_DIRECT_CONVERSATIONS = "FETCH_DIRECT_CONVERSATIONS",
+  SELECT_CONVERSATION = "SELECT_CONVERSATION",
+  GET_MESSAGES = "GET_MESSAGES",
   NEW_MESSAGE = "NEW_MESSAGE",
 }
 
-export interface ConversationActionPending {
-  type: ConversationActionType.CONVERSATION_ACTION_PENDING;
-}
-
-export interface ConversationActionFailure {
-  type: ConversationActionType.CONVERSATION_ACTION_FAILURE;
-}
-
-export interface GetDirectConversation {
-  type: ConversationActionType.GET_DIRECT_CONVERSATION;
+export interface FetchDirectConversations {
+  type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS;
   payload: IConversation[];
 }
 
+export interface SelectConversation {
+  type: ConversationActionType.SELECT_CONVERSATION;
+  payload: string;
+}
+
+export interface GetMessages {
+  type: ConversationActionType.GET_MESSAGES;
+  payload: IMessage[];
+}
 export interface NewMessage {
   type: ConversationActionType.NEW_MESSAGE;
-  payload: NewMessagePayload;
+  payload: INewMessage;
 }
 
 export type ConversationAction =
-  | ConversationActionPending
-  | ConversationActionFailure
-  | GetDirectConversation
+  | FetchDirectConversations
+  | SelectConversation
+  | GetMessages
   | NewMessage;
 
 export type ConversationThunkAction = ThunkAction<

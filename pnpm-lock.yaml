@@ -77,6 +77,9 @@ dependencies:
   react-i18next:
     specifier: ^12.3.1
     version: 12.3.1(i18next@22.5.0)(react-dom@18.2.0)(react@18.2.0)
+  react-otp-input:
+    specifier: ^3.0.2
+    version: 3.0.2(react-dom@18.2.0)(react@18.2.0)
   react-redux:
     specifier: ^8.0.7
     version: 8.0.7(@types/react-dom@18.0.11)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
@@ -101,6 +104,9 @@ dependencies:
   uuid:
     specifier: ^9.0.0
     version: 9.0.0
+  zego-express-engine-webrtc:
+    specifier: ^2.25.5
+    version: 2.25.5
 
 devDependencies:
   '@types/lodash':
@@ -3161,6 +3167,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immediate@3.0.6:
+    resolution: {integrity: sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -3325,6 +3335,12 @@ packages:
       type-check: 0.4.0
     dev: true
 
+  /lie@3.1.1:
+    resolution: {integrity: sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==}
+    dependencies:
+      immediate: 3.0.6
+    dev: false
+
   /lilconfig@2.0.6:
     resolution: {integrity: sha512-9JROoBW7pobfsx+Sq2JsASvCo6Pfo6WWoUW79HuB1BCoBXD4PLWJPqDF6fNj67pqBYTbAHkE57M1kS/+L1neOg==}
     engines: {node: '>=10'}
@@ -3375,6 +3391,12 @@ packages:
       through: 2.3.8
       wrap-ansi: 7.0.0
     dev: true
+
+  /localforage@1.10.0:
+    resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
+    dependencies:
+      lie: 3.1.1
+    dev: false
 
   /locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
@@ -3809,6 +3831,26 @@ packages:
       react-is: 16.13.1
     dev: false
 
+  /protobufjs@6.11.2:
+    resolution: {integrity: sha512-4BQJoPooKJl2G9j3XftkIXjoC9C0Av2NOrWmbLWT1vH32GcSUHjM0Arra6UfTsVyfMAuFzaLucXn1sadxJydAw==}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/long': 4.0.2
+      '@types/node': 20.2.5
+      long: 4.0.0
+    dev: false
+
   /protobufjs@6.11.3:
     resolution: {integrity: sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==}
     hasBin: true
@@ -3960,6 +4002,16 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-otp-input@3.0.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-YzOYnol7NodV1KZdy9Y4y3jV4u3mlug98WfJqwV4hs7+zeRqzp5jcA/+onZ6OHjpdOMRQvA675xAHB5ynSmViA==}
+    peerDependencies:
+      react: '>=16.8.6 || ^17.0.0 || ^18.0.0'
+      react-dom: '>=16.8.6 || ^17.0.0 || ^18.0.0'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-redux@8.0.7(@types/react-dom@18.0.11)(@types/react@18.0.37)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1):
@@ -4974,6 +5026,26 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zego-express-engine-webrtc@2.25.5:
+    resolution: {integrity: sha512-8eM0jYaTkbXDxLnk9rHX7HIsaXU+aszaZbQtsBKwfooU6lwKLvA5d89Eb2F20PdHl134kz89DrCMm84VyQP7ag==}
+    requiresBuild: true
+    dependencies:
+      localforage: 1.10.0
+      zego-express-engine-webrtm: 1.24.1
+    dev: false
+
+  /zego-express-engine-webrtm@1.24.1:
+    resolution: {integrity: sha512-e0MOxZO274L0EfybVsEfpPTGYsOtgGp5vaVf9to0mEKXo7+cEpGdoGT6haHjrpNIwlcVnRWXo9SwBb1uAT1vJg==}
+    dependencies:
+      localforage: 1.10.0
+      protobufjs: 6.11.2
+      zego-express-logger: 1.2.4
+    dev: false
+
+  /zego-express-logger@1.2.4:
+    resolution: {integrity: sha512-WHyACG1F0lxQF2Oii4WTCdL39AKqYt7U+/X1tAnEopY2RQsOkTuxRHijzqpapMg5anBJUhAiD9VXGorwwh5VUw==}
+    dev: false
 
   '@github.com/LearnBoost/node-XMLHttpRequest/archive/0f36d0b5ebc03d85f860d42a64ae9791e1daa433.tar.gz':
     resolution: {tarball: https://github.com/LearnBoost/node-XMLHttpRequest/archive/0f36d0b5ebc03d85f860d42a64ae9791e1daa433.tar.gz}
