@@ -17,8 +17,11 @@ export enum SocketEvents {
   GET_DIRECT_CONVERSATIONS = "get_direct_conversations",
   TEXT_MESSAGE = "text_message",
   NEW_MESSAGE = "new_message",
+
+  //friend
   FRIEND_REQUEST = "friend_request",
   NEW_FRIEND_REQUEST = "new_friend_request",
+  ACCEPT_REQUEST = "accept_request",
 
   //message
   GET_MESSAGES = "get_messages",
@@ -96,6 +99,7 @@ interface ClientToServerEvents {
 
   //friend
   friend_request: (args: FriendRequestPayload, callback: () => void) => void;
+  accept_request: (args: { request_id: string }) => void;
 
   //call
   start_audio_call: (arg: StartAudioCallPayload, callback?: () => void) => void;

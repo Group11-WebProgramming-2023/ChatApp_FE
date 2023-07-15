@@ -11,30 +11,27 @@ import { IconLink, IconMoodSmile, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { containsUrl } from "../../utils/helpers";
 import { socket } from "@/utils/socket";
-import { useAppDispatch } from "@/hooks/redux";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { RootState } from "@/redux/reducer";
 
-interface Props {
-  conversationId?: string;
-}
-
-export const Footer = ({ conversationId }: Props) => {
+export const Footer = () => {
   const userId = localStorage.getItem("userId");
   const theme = useMantineTheme();
   const dispatch = useAppDispatch();
-
+  const { selected_conversation_id, seleted_to_id } = useAppSelector(
+    (state: RootState) => state.conversation
+  );
   const [_message, setMessage] = useState<string>("");
 
   const handleSendMessage = () => {
-    console.log("clgt");
     if (userId) {
       socket.emit("text_message", {
         message: linkify(_message),
-        conversation_id: "64a7ac3275f8f7a44d322d2f",
+        conversation_id: selected_conversation_id,
         from: userId,
-        to: "64a7abd375f8f7a44d322cdc",
+        to: seleted_to_id,
         type: containsUrl(_message) ? "Link" : "Text",
       });
-      console.log("clgt");
       setMessage("");
     }
     // dispatch(ConversationActions.getDirectConversation());

@@ -427,7 +427,14 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
 
   const handleSelectConversation = () => {
     if (conversation._id) {
-      dispatch(ConversationAction.SelectConversation(conversation._id));
+      dispatch(
+        ConversationAction.SelectConversation({
+          conversation_id: conversation._id,
+          to_id:
+            conversation.participants.filter((item) => item._id !== userId)[0]
+              ._id || "",
+        })
+      );
       socket.emit(
         SocketEvents.GET_MESSAGES,
         {
@@ -461,16 +468,21 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
         <Col span={7} pl={"sm"}>
           <Stack spacing={0}>
             <Text fw={600}>
-              {
+              {`${
                 conversation.participants.filter(
                   (item) => item._id !== userId
                 )[0]?.firstName
-              }
+              } 
+              ${
+                conversation.participants.filter(
+                  (item) => item._id !== userId
+                )[0]?.lastName
+              }`}
             </Text>
             <Text>
-              {conversation.messages[conversation.messages.length - 1].from ==
+              {conversation.messages[conversation.messages.length - 1]?.from ==
                 userId && `You: `}
-              {conversation.messages[conversation.messages.length - 1].text}
+              {conversation.messages[conversation.messages.length - 1]?.text}
             </Text>
           </Stack>
         </Col>

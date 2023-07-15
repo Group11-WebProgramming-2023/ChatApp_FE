@@ -1,4 +1,5 @@
 import { AllUser } from "@/components/Friend/AllUser";
+import { FriendRequest } from "@/components/Friend/FriendRequest";
 import { ListFriend } from "@/components/Friend/ListFriend";
 import { Tabs } from "@mantine/core";
 import { useState } from "react";
@@ -16,7 +17,9 @@ export const Friend = () => {
       <Tabs.Panel value="friend">
         <ListFriend />
       </Tabs.Panel>
-      <Tabs.Panel value="request">Second panel</Tabs.Panel>
+      <Tabs.Panel value="request">
+        <FriendRequest />
+      </Tabs.Panel>
       <Tabs.Panel value="users">
         <AllUser />
       </Tabs.Panel>

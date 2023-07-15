@@ -13,6 +13,7 @@ const initialState: ConversationState = {
   },
   group_chat: {},
   selected_conversation_id: "",
+  seleted_to_id: "",
 };
 
 const conversationReducer: Reducer<ConversationState, ConversationAction> = (
@@ -53,7 +54,11 @@ const conversationReducer: Reducer<ConversationState, ConversationAction> = (
       return { ...state, direct_chat: updatedDirectChat };
     }
     case ConversationActionType.SELECT_CONVERSATION:
-      return { ...state, selected_conversation_id: action.payload };
+      return {
+        ...state,
+        selected_conversation_id: action.payload.conversation_id,
+        seleted_to_id: action.payload.to_id,
+      };
     default:
       return state;
   }
