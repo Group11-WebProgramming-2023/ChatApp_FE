@@ -1,19 +1,19 @@
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { RootState } from "@/redux/reducer";
 import { linkify } from "@/utils/helpers";
+import { socket } from "@/utils/socket";
 import {
   Button,
   Col,
   Grid,
   Group,
   Input,
+  TextInput,
   useMantineTheme,
 } from "@mantine/core";
 import { IconLink, IconMoodSmile, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { containsUrl } from "../../utils/helpers";
-import { socket } from "@/utils/socket";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux";
-import { RootState } from "@/redux/reducer";
-import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 
 export const Footer = () => {
   const userId = localStorage.getItem("userId");
@@ -48,33 +48,36 @@ export const Footer = () => {
   };
 
   return (
-    <Group bg={"#F7F9FD"} h={"10%"} p={"sm"}>
-      <Grid w={"100%"}>
-        <Col span={11}>
-          <Input
-            color={theme.colors.blue[5]}
-            rightSection={
-              <IconMoodSmile color={theme.colors.blue[5]} size={"1rem"} />
-            }
-            icon={<IconLink color={theme.colors.blue[5]} size={"1rem"} />}
-            w={"100%"}
-            radius={"lg"}
-            value={_message}
-            placeholder="Write a message"
-            onChange={(e) => setMessage(e.currentTarget.value)}
-          />
-        </Col>
-        <Col span={1}>
-          <Button
-            color="blue.5"
-            radius={"md"}
-            onClick={() => handleSendMessage()}
-            disabled={_message.length === 0 ? true : false}
-          >
-            <IconSend size={"0.8rem"} />
-          </Button>
-        </Col>
-      </Grid>
+    <Group
+      w={"100%"}
+      position="apart"
+      align="center"
+      bg={"#F7F9FD"}
+      h={"10%"}
+      py="xs"
+      px={"md"}
+      spacing={0}
+    >
+      <TextInput
+        color={theme.colors.blue[5]}
+        rightSection={
+          <IconMoodSmile color={theme.colors.blue[5]} size={"1rem"} />
+        }
+        icon={<IconLink color={theme.colors.blue[5]} size={"1rem"} />}
+        radius={"lg"}
+        value={_message}
+        placeholder="Write a message"
+        onChange={(e) => setMessage(e.currentTarget.value)}
+      />
+
+      <Button
+        color="blue.5"
+        radius={"md"}
+        onClick={() => handleSendMessage()}
+        disabled={_message.length === 0 ? true : false}
+      >
+        <IconSend size={"0.8rem"} />
+      </Button>
     </Group>
   );
 };

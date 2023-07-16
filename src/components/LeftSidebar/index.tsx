@@ -12,7 +12,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 
 export const LeftiSidebar = () => {
   return (
-    <Stack p={"xs"} bg={"#F8FAFF"} h={"100vh"} spacing={"xs"}>
+    <Stack p={"xs"} bg={"#F8FAFF"} h={"100vh - 80"} spacing={"xs"}>
       <Text fw={"bold"} fz={"lg"} my={"sm"}>
         Contact Info
       </Text>

@@ -5,13 +5,28 @@ import { AuthProvider } from "./contexts/AuthContext";
 import "./index.css";
 import store from "./redux/store";
 import Router from "./routes";
+import { MantineProvider } from "@mantine/core";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <ReduxProvider store={store}>
-    <BrowserRouter>
-      <AuthProvider>
-        <Router />
-      </AuthProvider>
-    </BrowserRouter>
+    <MantineProvider
+      withGlobalStyles
+      withNormalizeCSS
+      theme={{
+        breakpoints: {
+          xs: "30em",
+          sm: "48em",
+          md: "64em",
+          lg: "74em",
+          xl: "90em",
+        },
+      }}
+    >
+      <BrowserRouter>
+        <AuthProvider>
+          <Router />
+        </AuthProvider>
+      </BrowserRouter>
+    </MantineProvider>
   </ReduxProvider>
 );

@@ -1,4 +1,4 @@
-import { ROUTER } from "@/configs/routers";
+import { ROUTER } from "@/routes/path";
 import { Navigate, useOutlet } from "react-router-dom";
 
 const BaseLayout = () => {

@@ -34,7 +34,7 @@ export const FriendRequest = () => {
   };
 
   return (
-    <Center w={"1080px"}>
+    <Center>
       <Stack p={"xl"} w={"100%"}>
         <Group>
           <Input placeholder="Tìm kiếm" />

@@ -11,7 +11,7 @@ export const Chat = () => {
   );
 
   return (
-    <Stack h={"100vh"} spacing={0}>
+    <Stack h={"100vh"} spacing={0} p={0}>
       <Header />
       <Body messages={current_messages} />
       <Footer />

@@ -2,10 +2,9 @@
 import Logo from "@/assets/img/logo.png";
 import { CallModal } from "@/components/Call/CallModal";
 import { CallNotification } from "@/components/Call/CallNotification";
+import { useAuthContext } from "@/hooks/context";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
-import { CallAction } from "@/redux/reducer/call/call.action";
-import callReducer from "@/redux/reducer/call/call.reducer";
 import { CallActionType } from "@/redux/reducer/call/call.type";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 import { ROUTER } from "@/routes/path";
@@ -16,8 +15,8 @@ import {
   AppShell,
   Avatar,
   Center,
-  Col,
-  Grid,
+  Footer,
+  Group,
   Image,
   Modal,
   Navbar,
@@ -26,8 +25,9 @@ import {
   UnstyledButton,
   createStyles,
   rem,
+  useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
 import {
   IconFriends,
   IconInfoCircle,
@@ -117,9 +117,8 @@ const ProtectedLayout = () => {
   );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { selected_conversation_id } = useAppSelector(
-    (state: RootState) => state.conversation
-  );
+
+  const { logout } = useAuthContext();
 
   const data = [
     { icon: IconMessage, label: "Message" },
@@ -207,37 +206,65 @@ const ProtectedLayout = () => {
   //   useDisclosure(open_audio_modal);
 
   console.log(open_audio_modal);
+  const selected_conversation_id = useAppSelector(
+    (state: RootState) =>
+      state.conversation.direct_chat.current_conversation?._id
+  );
+  //responsive
+  const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
+
+  const FooterComponet = (
+    <Footer height={70} p="xs">
+      <Group>
+        {links}
+        <IconLogout size="1.2rem" stroke={1.5} />
+      </Group>
+    </Footer>
+  );
   return (
     <>
       <AppShell
-        m={"0px"}
-        p={"0"}
         padding={0}
-        h={"100vh"}
         navbar={
-          <Navbar height={"100vh"} width={{ base: 80 }} p="md">
-            <Center>
-              <Anchor href={ROUTER.BASE}>
-                <Image src={Logo} width={50} />
-              </Anchor>
-            </Center>
-            <Navbar.Section grow mt={50}>
-              <Stack justify="center" spacing={0}>
-                {links}
-              </Stack>
-            </Navbar.Section>
-            <Navbar.Section>
-              <Stack align="center" spacing={0}>
-                <Avatar
-                  src={
-                    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
-                  }
-                  radius={"xl"}
-                />
-                <NavbarLink icon={IconLogout} label="Logout" />
-              </Stack>
-            </Navbar.Section>
-          </Navbar>
+          matches ? (
+            <Navbar height={"100vh"} width={{ base: 80 }} p="md">
+              <Center>
+                <Anchor
+                  href={ROUTER.BASE}
+                  onClick={() => {
+                    setActive(0);
+                    handleChangeTab(0);
+                  }}
+                >
+                  <Image src={Logo} width={50} />
+                </Anchor>
+              </Center>
+              <Navbar.Section grow mt={50}>
+                <Stack justify="center" spacing={0}>
+                  {links}
+                </Stack>
+              </Navbar.Section>
+              <Navbar.Section>
+                <Stack align="center" spacing={0}>
+                  <Avatar src={""} radius={"xl"} />
+                  <NavbarLink
+                    icon={IconLogout}
+                    label="Logout"
+                    onClick={() => {
+                      logout();
+                      navigate(ROUTER.LOGIN);
+                    }}
+                  />
+                </Stack>
+              </Navbar.Section>
+            </Navbar>
+          ) : (
+            <></>
+          )
+        }
+        footer={
+          matches ? <></> : selected_conversation_id ? <></> : FooterComponet
         }
       >
         <Outlet />

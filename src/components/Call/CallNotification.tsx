@@ -1,19 +1,9 @@
-import {
-  Avatar,
-  Button,
-  Center,
-  Group,
-  Modal,
-  Stack,
-  Text,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { IconPhoneIncoming, IconPhoneOff } from "@tabler/icons-react";
-import { CallModal } from "./CallModal";
-import { SocketEvents, socket } from "@/utils/socket";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { CallActionType } from "@/redux/reducer/call/call.type";
+import { SocketEvents, socket } from "@/utils/socket";
+import { Avatar, Button, Center, Group, Stack, Text } from "@mantine/core";
+import { IconPhoneIncoming, IconPhoneOff } from "@tabler/icons-react";
 
 interface Props {
   close: () => void;

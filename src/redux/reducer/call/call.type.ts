@@ -1,8 +1,9 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
+import { ICall } from "@/types/models/ICall";
 
 export interface CallState {
-  calllog: unknown[];
+  calllog: ICall[];
   open_audio_notification_modal: boolean;
   open_audio_modal: boolean;
   incoming: boolean;
@@ -30,7 +31,7 @@ export interface PushToAudioQueuePayload {
 
 export interface GetCallLog {
   type: CallActionType.GET_CALL_LOG;
-  payload: unknown[];
+  payload: ICall[];
 }
 
 export interface PushToAudioQueue {

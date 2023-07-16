@@ -1,12 +1,11 @@
-import { Icon, IconCamera, IconPhone } from "@tabler/icons-react";
 import { BaseModel } from ".";
-import { IUser } from "./IUser";
 
 export interface ICall extends BaseModel {
-  status: ICallStatus;
-  type: ICallType;
-  time: string;
-  user: IUser;
+  firstName: string;
+  lastName: string;
+  incoming: boolean;
+  missed: boolean;
+  id: string;
 }
 
 export enum ICallStatus {
@@ -19,31 +18,3 @@ export enum ICallType {
   VOICE = "VOICE",
   VIDEO = "VIDEO",
 }
-
-export const ICallStatusDict: Record<
-  ICallStatus,
-  { label: string; color: string }
-> = {
-  [ICallStatus.COMING]: {
-    label: "Coming",
-    color: "blue",
-  },
-  [ICallStatus.GOING]: {
-    label: "Going",
-    color: "green",
-  },
-  [ICallStatus.MISSED]: {
-    label: "Missed",
-    color: "red",
-  },
-};
-
-export const ICallTypeDict: Record<ICallType, { icon: Icon; color?: string }> =
-  {
-    [ICallType.VIDEO]: {
-      icon: IconCamera,
-    },
-    [ICallType.VOICE]: {
-      icon: IconPhone,
-    },
-  };

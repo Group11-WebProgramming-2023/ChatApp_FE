@@ -1,5 +1,5 @@
 import { LoginPayload } from "@/configs/api/payload";
-import { ROUTER } from "@/configs/routers";
+import { ROUTER } from "@/routes/path";
 import { useAuthContext } from "@/hooks/context";
 import {
   Box,
@@ -29,7 +29,7 @@ export const Login = () => {
   const handleLogin = (values: LoginPayload) => {
     login(values, {
       onSuccess: () => {
-        navigate(ROUTER.BASE);
+        navigate(ROUTER.APP);
       },
     });
   };
@@ -73,7 +73,7 @@ export const Login = () => {
                 <Text
                   color="dimmed"
                   sx={{ cursor: "pointer" }}
-                  onClick={() => navigate(ROUTER.FORGOT_PWD)}
+                  // onClick={() => navigate(ROUTER.FORGOT_PWD)}
                 >
                   Forgot password
                 </Text>

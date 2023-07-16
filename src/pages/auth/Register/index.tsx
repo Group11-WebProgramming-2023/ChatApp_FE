@@ -1,5 +1,5 @@
 import { RegisterPayload } from "@/configs/api/payload";
-import { ROUTER } from "@/configs/routers";
+import { ROUTER } from "@/routes/path";
 import { useAuthContext } from "@/hooks/context";
 import {
   Box,
