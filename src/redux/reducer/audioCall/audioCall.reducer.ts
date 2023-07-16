@@ -1,8 +1,8 @@
 import { Reducer } from "redux";
-import { CallAction, CallActionType, CallState } from "./call.type";
+import { AudioCallAction, AudioCallActionType, AudioCallState } from "./audioCall.type";
 import { SocketEvents, socket } from "@/utils/socket";
 
-const initialState: CallState = {
+const initialState: AudioCallState = {
   calllog: [],
   open_audio_modal: false,
   open_audio_notification_modal: false,
@@ -10,14 +10,14 @@ const initialState: CallState = {
   incoming: false,
 };
 
-const callReducer: Reducer<CallState, CallAction> = (
+const audioCallReducer: Reducer<AudioCallState, AudioCallAction> = (
   state = initialState,
   action
 ) => {
   switch (action.type) {
-    case CallActionType.GET_CALL_LOG:
+    case AudioCallActionType.GET_AUDIO_CALL_LOG:
       return { ...state, calllog: action.payload };
-    case CallActionType.PUSH_TO_AUDIO_QUEUE: {
+    case AudioCallActionType.PUSH_TO_AUDIO_QUEUE: {
       if (state.call_queue.length === 0) {
         const newCallQueue = [...state.call_queue, action.payload.call];
         if (action.payload.incoming) {
@@ -42,16 +42,16 @@ const callReducer: Reducer<CallState, CallAction> = (
         return state;
       }
     }
-    case CallActionType.RESET_AUDIO_QUEUE:
+    case AudioCallActionType.RESET_AUDIO_QUEUE:
       return {
         ...state,
         call_queue: [],
         open_audio_modal: false,
         open_audio_notification_modal: false,
       };
-    case CallActionType.CLOSE_AUDIO_NOTI_MODAL:
+    case AudioCallActionType.CLOSE_AUDIO_NOTI_MODAL:
       return { ...state, open_audio_notification_modal: false };
-    case CallActionType.UPDATE_AUDIO_CALL_MODAL:
+    case AudioCallActionType.UPDATE_AUDIO_CALL_MODAL:
       return {
         ...state,
         open_audio_modal: action.payload.state,
@@ -62,4 +62,4 @@ const callReducer: Reducer<CallState, CallAction> = (
   }
 };
 
-export default callReducer;
+export default audioCallReducer;

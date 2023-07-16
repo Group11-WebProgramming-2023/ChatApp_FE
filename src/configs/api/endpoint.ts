@@ -53,5 +53,12 @@ export const API_URLS = {
       method: "POST",
       headers: HEADERS.authHeader(),
     }),
+
+    //video call
+    startVideoCall: () => ({
+      endPoint: "/user/start-video-call",
+      method: "POST",
+      headers: HEADERS.authHeader(),
+    }),
   },
 };

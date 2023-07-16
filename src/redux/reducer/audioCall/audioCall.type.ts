@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
 
-export interface CallState {
+export interface AudioCallState {
   calllog: unknown[];
   open_audio_notification_modal: boolean;
   open_audio_modal: boolean;
@@ -14,8 +14,8 @@ export interface CallQueue {
   incoming: boolean;
 }
 
-export enum CallActionType {
-  GET_CALL_LOG = "GET_CALL_LOG",
+export enum AudioCallActionType {
+  GET_AUDIO_CALL_LOG = "GET_AUDIO_CALL_LOG",
   START_AUDIO_CALL = "START_AUDIO_CALL",
   PUSH_TO_AUDIO_QUEUE = "PUSH_TO_AUDIO_QUEUE",
   RESET_AUDIO_QUEUE = "RESET_AUDIO_QUEUE",
@@ -28,39 +28,39 @@ export interface PushToAudioQueuePayload {
   incoming: boolean;
 }
 
-export interface GetCallLog {
-  type: CallActionType.GET_CALL_LOG;
+export interface GetAudioCallLog {
+  type: AudioCallActionType.GET_AUDIO_CALL_LOG;
   payload: unknown[];
 }
 
 export interface PushToAudioQueue {
-  type: CallActionType.PUSH_TO_AUDIO_QUEUE;
+  type: AudioCallActionType.PUSH_TO_AUDIO_QUEUE;
   payload: PushToAudioQueuePayload;
 }
 
 export interface ResetAudioQueue {
-  type: CallActionType.RESET_AUDIO_QUEUE;
+  type: AudioCallActionType.RESET_AUDIO_QUEUE;
 }
 
 export interface CloseAudioCallNotiModal {
-  type: CallActionType.CLOSE_AUDIO_NOTI_MODAL;
+  type: AudioCallActionType.CLOSE_AUDIO_NOTI_MODAL;
 }
 
 export interface UpdateAudioCallModal {
-  type: CallActionType.UPDATE_AUDIO_CALL_MODAL;
+  type: AudioCallActionType.UPDATE_AUDIO_CALL_MODAL;
   payload: unknown;
 }
 
-export type CallAction =
-  | GetCallLog
+export type AudioCallAction =
+  | GetAudioCallLog
   | PushToAudioQueue
   | ResetAudioQueue
   | CloseAudioCallNotiModal
   | UpdateAudioCallModal;
 
-export type CallThunkAction = ThunkAction<
+export type AudioCallThunkAction = ThunkAction<
   void,
   RootState,
   undefined,
-  CallAction
+  AudioCallAction
 >;

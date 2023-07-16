@@ -1,7 +1,7 @@
+import { CONFIG } from "@/configs";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
-import { CallAction } from "@/redux/reducer/call/call.action";
-import { CallActionType } from "@/redux/reducer/call/call.type";
+import { VideoCallActionType } from "@/redux/reducer/videoCall/videoCall.type";
 import { SocketEvents, socket } from "@/utils/socket";
 import { Avatar, Button, Group, Stack } from "@mantine/core";
 import { IconPhoneOff } from "@tabler/icons-react";
@@ -13,17 +13,20 @@ interface Props {
   close: () => void;
 }
 
-export const CallModal = ({ close }: Props) => {
+let timer: string | number | NodeJS.Timeout | undefined;
+
+export const VideoCallModal = ({ close }: Props) => {
   const audioStreamRef = useRef<HTMLInputElement>(null);
+  const videoStreamRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   //* Use params from call_details if available => like in case of receiver's end
 
   const [call_details] = useAppSelector(
-    (state: RootState) => state.call.call_queue
+    (state: RootState) => state.videoCall.call_queue
   );
-  const { incoming } = useAppSelector((state: RootState) => state.call);
+  const { incoming } = useAppSelector((state: RootState) => state.videoCall);
 
-  const token = localStorage.getItem("token") || "";
+  const token: string = localStorage.getItem("token") || "";
 
   const appID = 546310831;
   const server = "wss://webliveroom546310831-api.coolzcloud.com/ws";
@@ -43,23 +46,28 @@ export const CallModal = ({ close }: Props) => {
   const zg = new ZegoExpressEngine(appID, server);
 
   const streamID = call_details?.streamID;
+  const audioStreamID = `audio_${call_details?.streamID}`;
+  const videoStreamID = `video_${call_details?.streamID}`;
 
   const handleDisconnect = () => {
     dispatch({
-      type: CallActionType.RESET_AUDIO_QUEUE,
+      type: VideoCallActionType.RESET_VIDEO_QUEUE,
     });
 
     // clean up event listners
-    socket?.off("audio_call_accepted");
-    socket?.off("audio_call_denied");
-    socket?.off("audio_call_missed");
+    socket?.off(SocketEvents.VIDEO_CALL_ACCEPTED);
+    socket?.off("video_call_denied");
+    socket?.off("video_call_missed");
 
-    // stop publishing local audio stream to remote users, call the stopPublishingStream method with the corresponding stream ID passed to the streamID parameter.
-    zg.stopPublishingStream(streamID);
+    // stop publishing local audio & video stream to remote users, call the stopPublishingStream method with the corresponding stream ID passed to the streamID parameter.
+
+    zg.stopPublishingStream(audioStreamID);
+    zg.stopPublishingStream(videoStreamID);
     // stop playing a remote audio
-    zg.stopPlayingStream(userID);
-    // destroy stream
+    zg.stopPlayingStream(`audio_${userID}`);
+    zg.stopPlayingStream(`video_${userID}`);
     zg.destroyStream(audioStreamRef.current);
+    zg.destroyStream(videoStreamRef.current);
     // log out of the room
     zg.logoutRoom(roomID);
 
@@ -74,11 +82,11 @@ export const CallModal = ({ close }: Props) => {
 
     // create a job to decline call automatically after 30 sec if not picked
 
-    const timer = setTimeout(() => {
+    timer = setTimeout(() => {
       // TODO => You can play an audio indicating missed call at this line at sender's end
 
       socket.emit(
-        SocketEvents.AUDIO_CALL_NOT_PICKED,
+        SocketEvents.VIDEO_CALL_NOT_PICKED,
         { to: streamID, from: userID },
         () => {
           // TODO abort call => Call verdict will be marked as Missed
@@ -86,27 +94,27 @@ export const CallModal = ({ close }: Props) => {
       );
     }, 30 * 1000);
 
-    socket.on("audio_call_missed", () => {
+    socket.on("video_call_missed", () => {
       // TODO => You can play an audio indicating call is missed at receiver's end
       // Abort call
       handleDisconnect();
     });
 
-    socket.on(SocketEvents.AUDIO_CALL_ACCEPTED, () => {
+    socket.on(SocketEvents.VIDEO_CALL_ACCEPTED, () => {
       // TODO => You can play an audio indicating call is started
       // clear timeout for "audio_call_not_picked"
       clearTimeout(timer);
     });
 
     if (!incoming) {
-      socket.emit("start_audio_call", {
+      socket.emit("start_video_call", {
         to: streamID,
         from: userID,
         roomID,
       });
     }
 
-    socket.on("audio_call_denied", () => {
+    socket.on("video_call_denied", () => {
       // TODO => You can play an audio indicating call is denined
       // ABORT CALL
       handleDisconnect();
@@ -117,7 +125,7 @@ export const CallModal = ({ close }: Props) => {
 
     async function fetchToken() {
       const response = await axios.post(
-        "http://localhost:8000/user/generate-zego-token",
+        `${CONFIG.APP_URL}/user/generate-zego-token`,
         {
           userId: userID,
           room_id: roomID,
@@ -150,9 +158,9 @@ export const CallModal = ({ close }: Props) => {
         // }
         console.log(result);
 
-        const { webRTC, microphone } = result;
+        const { webRTC, microphone, camera } = result;
 
-        if (webRTC && microphone) {
+        if (webRTC && microphone && camera) {
           zg.loginRoom(
             roomID,
             zego_token,
@@ -163,19 +171,28 @@ export const CallModal = ({ close }: Props) => {
               console.log(result);
 
               // After calling the CreateStream method, you need to wait for the ZEGOCLOUD server to return the local stream object before any further operation.
-              const localStream = await zg.createStream({
+              const localAudioStream = await zg.createStream({
                 camera: { audio: true, video: false },
               });
+              const localVideoStream = await zg.createStream({
+                camera: { audio: false, video: true },
+              });
 
-              audioStreamRef.current = localStream;
+              audioStreamRef.current = localAudioStream;
+              videoStreamRef.current = localVideoStream;
 
               // Get the audio tag.
               const localAudio = document.getElementById("local-audio");
+              const localVideo = document.getElementById("local-video");
               // The local stream is a MediaStream object. You can render audio by assigning the local stream to the srcObject property of video or audio.
-              localAudio.srcObject = localStream;
+              localAudio.srcObject = localAudioStream;
+              localVideo.srcObject = localVideoStream;
+
+              localVideo.play();
 
               // localStream is the MediaStream object created by calling creatStream in the previous step.
-              zg.startPublishingStream(streamID, localStream);
+              zg.startPublishingStream(audioStreamID, localAudioStream);
+              zg.startPublishingStream(videoStreamID, localVideoStream);
 
               zg.on("publisherStateUpdate", (result) => {
                 // Callback for updates on stream publishing status.
@@ -226,14 +243,22 @@ export const CallModal = ({ close }: Props) => {
             } else {
               // const current_users = JSON.stringify(userList);
               // * We can use current_users_list to build dynamic UI in a group call
-              const remoteStream = await zg.startPlayingStream(userID);
+              const remoteAudioStream = await zg.startPlayingStream(
+                `audio_${userID}`
+              );
+              const remoteVideoStream = await zg.startPlayingStream(
+                `video_${userID}`
+              );
 
               // Get the audio tag.
               const remoteAudio = document.getElementById("remote-audio");
+              const remoteVideo = document.getElementById("remote-video");
               // The local stream is a MediaStream object. You can render audio by assigning the local stream to the srcObject property of video or audio.
 
-              remoteAudio.srcObject = remoteStream;
+              remoteAudio.srcObject = remoteAudioStream;
+              remoteVideo.srcObject = remoteVideoStream;
               remoteAudio.play();
+              remoteVideo.play();
             }
           });
 
@@ -289,10 +314,20 @@ export const CallModal = ({ close }: Props) => {
       <Group>
         <Stack>
           <Avatar />
+          <video
+            style={{ height: 320, width: 180 }}
+            id="local-video"
+            controls={false}
+          />
           <audio id="local-audio" controls={false} />
         </Stack>
         <Stack>
           <Avatar />
+          <video
+            style={{ height: 320, width: 180 }}
+            id="remote-video"
+            controls={false}
+          />
           <audio id="remote-audio" controls={false} />
         </Stack>
       </Group>

@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { IconPhone, IconSearch, IconVideo } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { CallNotification } from "../Call/CallNotification";
+import { AudioCallNotification } from "../Call/Audio/AudioCallNotification";
 import { useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 
@@ -59,7 +59,7 @@ export const Header = () => {
       </Group>
 
       <Modal centered opened={opened} onClose={close}>
-        <CallNotification close={close} />
+        <AudioCallNotification close={close} />
       </Modal>
     </>
   );
