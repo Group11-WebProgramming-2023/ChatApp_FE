@@ -1,6 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
+import { AudioCallAction } from "@/redux/reducer/audioCall/audioCall.action";
 import { ConversationAction } from "@/redux/reducer/conversation/conversation.action";
+import { VideoCallAction } from "@/redux/reducer/videoCall/videoCall.action";
 import { ROUTER } from "@/routes/path";
 import { Avatar, Group, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
@@ -17,14 +19,33 @@ export const Header = () => {
   const { current_conversation } = useAppSelector(
     (state: RootState) => state.conversation.direct_chat
   );
-  const user = current_conversation?.participants.filter(
-    (el) => el._id !== localStorage.getItem("userId")
+
+  const currentUserID = localStorage.getItem("userId");
+  const user: any = current_conversation?.participants.filter(
+    (el) => el._id !== currentUserID
   )[0];
 
   const handleBack = () => {
     navigate(ROUTER.APP);
     dispatch(ConversationAction.SelectConversation(null));
   };
+
+  const handleAudioCall = () => {
+    console.log(user._id);
+    if (user._id) {
+      dispatch(AudioCallAction.startAudioCall({ id: user._id }));
+      close();
+    }
+  };
+
+  const handleVideoCall = () => {
+    console.log(user._id);
+    if (user._id) {
+      dispatch(VideoCallAction.startVideoCall({ id: user._id }));
+      close();
+    }
+  };
+
   return (
     <Group
       w={"100%"}
@@ -60,11 +81,17 @@ export const Header = () => {
           size={"1.2rem"}
           cursor={"pointer"}
           color={theme.colors.blue[5]}
+          onClick={() => {
+            handleVideoCall();
+          }}
         />
         <IconPhone
           size={"1.2rem"}
           cursor={"pointer"}
           color={theme.colors.blue[5]}
+          onClick={() => {
+            handleAudioCall();
+          }}
         />
       </Group>
     </Group>
