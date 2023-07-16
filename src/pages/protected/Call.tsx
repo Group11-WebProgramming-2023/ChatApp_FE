@@ -82,7 +82,7 @@ export const Call = () => {
             <Divider />
             <ScrollArea p={0} sx={{ flex: "1 0 0" }}>
               {calllog.map((call) => (
-                <CallLogCard call={call} />
+                <CallLogCard call={call} key={call.id} />
               ))}
             </ScrollArea>
           </Stack>
@@ -95,7 +95,7 @@ export const Call = () => {
         title={<Text fw={500}>Your friends</Text>}
       >
         {allFriends.map((friend) => (
-          <CallCard user={friend} close={close} />
+          <CallCard key={friend._id} user={friend} close={close} />
         ))}
       </Modal>
     </>

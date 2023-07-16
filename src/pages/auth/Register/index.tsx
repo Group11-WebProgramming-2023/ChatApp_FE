@@ -63,7 +63,7 @@ export const Register = () => {
         Register
       </Text>
       <Text align="center" color="dimmed" fz="xl">
-        Welcome to the chat app. Register and start chatting
+        Register and start chatting
       </Text>
       <Center mt={"sm"}>
         <Card shadow="md" w={360}>

@@ -1,9 +1,9 @@
-import { notifications } from '@mantine/notifications';
+import { notifications } from "@mantine/notifications";
 
 export enum NotiType {
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR',
-  INFO = 'INFO'
+  SUCCESS = "SUCCESS",
+  ERROR = "ERROR",
+  INFO = "INFO",
 }
 
 export interface NotiTypeDictFields {
@@ -13,17 +13,17 @@ export interface NotiTypeDictFields {
 
 export const NotiTypeDict: Record<NotiType, NotiTypeDictFields> = {
   [NotiType.ERROR]: {
-    color: 'red',
-    title: 'Thất Bại'
+    color: "red",
+    title: "Error",
   },
   [NotiType.INFO]: {
-    color: 'blue',
-    title: 'Thông Tin'
+    color: "blue",
+    title: "Info",
   },
   [NotiType.SUCCESS]: {
-    color: 'green',
-    title: 'Thành Công'
-  }
+    color: "green",
+    title: "Success",
+  },
 };
 
 export const renderNotification = (message: string, type: NotiType) => {
@@ -32,6 +32,6 @@ export const renderNotification = (message: string, type: NotiType) => {
     message,
     color: NotiTypeDict[type].color,
     withCloseButton: true,
-    autoClose: 1200
+    autoClose: 1200,
   });
 };

@@ -9,10 +9,8 @@ export enum AuthAction {
   REGISTER_SUCCESS = "REGISTER_SUCCESS",
   CONFIRM_OTP_SUCCESS = "CONFIRM_OTP_SUCCESS",
   LOGOUT = "LOGOUT",
-  GET_AUTHORITIES = "GET_AUTHORITIES",
-  GET_PROFILE = "GET_PROFILE",
-  UPDATE_PROFILE = "UPDATE_PROFILE",
-  CHANGE_PWD = "CHANGE_PWD",
+  FORGOT_PWD = "FORGOT_PWD",
+  RESET_PWD = "RESET_PWD",
 }
 
 interface AuthActionPending {
@@ -39,22 +37,11 @@ interface Logout {
   type: AuthAction.LOGOUT;
 }
 
-interface GetAuthorities {
-  type: AuthAction.GET_AUTHORITIES;
-  payload: Authorities;
+interface ForgotPwd {
+  type: AuthAction.FORGOT_PWD;
 }
-
-interface GetProfile {
-  type: AuthAction.GET_PROFILE;
-  payload: IUser;
-}
-
-interface UpdateProfile {
-  type: AuthAction.UPDATE_PROFILE;
-}
-
-interface ChangePwd {
-  type: AuthAction.CHANGE_PWD;
+interface ResetPwd {
+  type: AuthAction.RESET_PWD;
 }
 
 export type AuthActionType =
@@ -62,9 +49,7 @@ export type AuthActionType =
   | AuthActionPending
   | AuthActionFailure
   | LoginSuccess
-  | GetAuthorities
-  | GetProfile
-  | UpdateProfile
-  | ChangePwd
   | RegisterSuccess
-  | ConfirmOTPSuccess;
+  | ConfirmOTPSuccess
+  | ForgotPwd
+  | ResetPwd;

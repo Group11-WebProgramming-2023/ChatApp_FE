@@ -18,6 +18,8 @@ import { SocketEvents, connectSocket, socket } from "@/utils/socket";
 import { NotiType, renderNotification } from "@/utils/notifications";
 import { useAppDispatch } from "@/hooks/redux";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
+import { ForgotPassword } from "@/pages/auth/ForgotPassword";
+import { ResetPwd } from "@/pages/auth/ResetPassword";
 
 // const Loadable = (Component) => (props) => {
 //   return (
@@ -53,6 +55,14 @@ export default function Router() {
         {
           path: ROUTER.REGISTER,
           element: <Register />,
+        },
+        {
+          path: ROUTER.FORGOT_PWD,
+          element: <ForgotPassword />,
+        },
+        {
+          path: ROUTER.RESET_PWD,
+          element: <ResetPwd />,
         },
       ],
     },

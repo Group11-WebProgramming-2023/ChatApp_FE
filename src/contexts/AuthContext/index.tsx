@@ -3,8 +3,10 @@
 import { useCallApi } from "@/configs/api";
 import { API_URLS } from "@/configs/api/endpoint";
 import {
+  ForgotPasswordPayload,
   LoginPayload,
   RegisterPayload,
+  ResetPasswordPayload,
   VerifyOTPPayload,
 } from "@/configs/api/payload";
 import { IUser } from "@/types/models/IUser";
@@ -36,14 +38,11 @@ function authReducer(state = initialState, action: AuthActionType): AuthState {
     case AuthAction.AUTH_ACTION_FAILURE:
     case AuthAction.LOGIN_SUCCESS:
     case AuthAction.REGISTER_SUCCESS:
-    case AuthAction.UPDATE_PROFILE:
     case AuthAction.CONFIRM_OTP_SUCCESS:
-    case AuthAction.CHANGE_PWD:
+    case AuthAction.FORGOT_PWD:
+    case AuthAction.RESET_PWD:
       return { ...state, isFetching: false };
-    case AuthAction.GET_AUTHORITIES:
-      return { ...state, isFetching: false, authorities: action.payload };
-    case AuthAction.GET_PROFILE:
-      return { ...state, isFetching: false, profile: action.payload };
+
     case AuthAction.LOGOUT:
       return state;
     default:
@@ -67,11 +66,11 @@ function useAuthReducer(_state = initialState) {
       });
       saveToken(response.data.token);
       saveUserId(response.data.user_id);
-      renderNotification("Login successfully", NotiType.SUCCESS);
+      renderNotification(response.data.message, NotiType.SUCCESS);
       cb?.onSuccess?.();
     } else {
       dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
-      renderNotification("Đăng nhập thất bại", NotiType.ERROR);
+      renderNotification(error.response.data.message, NotiType.ERROR);
       cb?.onError?.();
     }
   };
@@ -87,11 +86,11 @@ function useAuthReducer(_state = initialState) {
       dispatch({
         type: AuthAction.REGISTER_SUCCESS,
       });
-      renderNotification("Register successfully", NotiType.SUCCESS);
+      renderNotification(response.data.message, NotiType.SUCCESS);
       cb?.onSuccess?.();
     } else {
       dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
-      renderNotification("Register fail", NotiType.ERROR);
+      renderNotification(error.response.data.message, NotiType.ERROR);
       cb?.onError?.();
     }
   };
@@ -107,11 +106,49 @@ function useAuthReducer(_state = initialState) {
       dispatch({
         type: AuthAction.CONFIRM_OTP_SUCCESS,
       });
-      renderNotification("Verify OTP successfully", NotiType.SUCCESS);
+      renderNotification(response.data.message, NotiType.SUCCESS);
       cb?.onSuccess?.();
     } else {
       dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
-      renderNotification("Verify OTP fail", NotiType.ERROR);
+      renderNotification(error.response.data.message, NotiType.ERROR);
+      cb?.onError?.();
+    }
+  };
+
+  const forgotPwd = async (payload: ForgotPasswordPayload, cb?: Callback) => {
+    dispatch({ type: AuthAction.AUTH_ACTION_PENDING });
+
+    const api = API_URLS.Auth.forgotPassword();
+
+    const { response, error } = await useCallApi({ ...api, payload });
+
+    if (!error && response?.status === 200) {
+      dispatch({
+        type: AuthAction.FORGOT_PWD,
+      });
+      renderNotification(response.data.message, NotiType.SUCCESS);
+    } else {
+      dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
+      renderNotification(error.response.data.message, NotiType.ERROR);
+      cb?.onError?.();
+    }
+  };
+
+  const resetPwd = async (payload: ResetPasswordPayload, cb?: Callback) => {
+    dispatch({ type: AuthAction.AUTH_ACTION_PENDING });
+
+    const api = API_URLS.Auth.resetPassword();
+
+    const { response, error } = await useCallApi({ ...api, payload });
+
+    if (!error && response?.status === 200) {
+      dispatch({
+        type: AuthAction.RESET_PWD,
+      });
+      renderNotification(response.data.message, NotiType.SUCCESS);
+    } else {
+      dispatch({ type: AuthAction.AUTH_ACTION_FAILURE });
+      renderNotification(error.response.data.message, NotiType.ERROR);
       cb?.onError?.();
     }
   };
@@ -128,6 +165,8 @@ function useAuthReducer(_state = initialState) {
     logout,
     register,
     confirmOTP,
+    forgotPwd,
+    resetPwd,
   };
 }
 
@@ -137,6 +176,8 @@ export const AuthContext = createContext<ReturnType<typeof useAuthReducer>>({
   register: async () => {},
   logout: () => {},
   confirmOTP: async () => {},
+  forgotPwd: async () => {},
+  resetPwd: async () => {},
 });
 
 interface Props {

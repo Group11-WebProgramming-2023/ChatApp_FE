@@ -18,12 +18,12 @@ export const API_URLS = {
       headers: HEADERS.header(),
     }),
     forgotPassword: () => ({
-      endPoint: "/auth/login",
+      endPoint: "/auth/forgot-password",
       method: "POST",
       headers: HEADERS.header(),
     }),
     resetPassword: () => ({
-      endPoint: "/auth/login",
+      endPoint: "/auth/reset-password",
       method: "POST",
       headers: HEADERS.header(),
     }),

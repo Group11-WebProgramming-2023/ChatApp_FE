@@ -1,8 +1,9 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
+import { ICall } from "@/types/models/ICall";
 
 export interface AudioCallState {
-  calllog: unknown[];
+  calllog: ICall[];
   open_audio_notification_modal: boolean;
   open_audio_modal: boolean;
   incoming: boolean;

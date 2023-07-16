@@ -10,8 +10,6 @@ import {
   Center,
   Col,
   Grid,
-  Group,
-  Input,
   Stack,
   Text,
 } from "@mantine/core";
@@ -25,7 +23,7 @@ export const AllUser = () => {
 
   useEffect(() => {
     dispatch(UserAction.getAllUser());
-  }, []);
+  }, [dispatch]);
 
   const handleAddFriend = (toId: string | undefined) => {
     const userId = localStorage.getItem("userId");
@@ -34,7 +32,7 @@ export const AllUser = () => {
         SocketEvents.FRIEND_REQUEST,
         { to: toId, from: userId },
         () => {
-          renderNotification("Send friend successfullt", NotiType.SUCCESS);
+          renderNotification("Send friend successfully", NotiType.SUCCESS);
         }
       );
     }
@@ -43,9 +41,9 @@ export const AllUser = () => {
   return (
     <Center>
       <Stack p={"xl"} w={"100%"}>
-        <Group>
-          <Input placeholder="Tìm kiếm" />
-        </Group>
+        {/* <Group>
+          <Input placeholder="Search" />
+        </Group> */}
         <Grid gutter={"xl"}>
           {allUsers.map((user) => (
             <Col span={6}>

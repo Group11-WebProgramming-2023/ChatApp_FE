@@ -16,7 +16,8 @@ export const DEFAULT_PATH = PATH_DASHBOARD.general.app; // as '/app'
 export const ROUTER = {
   LOGIN: "/login",
   REGISTER: "/register",
-  FORGOT_PWF: "/forgot-pwd",
+  FORGOT_PWD: "/forgot-password",
+  RESET_PWD: "/reset-password",
 
   //dashboard
   BASE: "/",

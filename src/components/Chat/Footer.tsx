@@ -14,6 +14,7 @@ import {
 import { IconLink, IconMoodSmile, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { containsUrl } from "../../utils/helpers";
+import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 
 export const Footer = () => {
   const userId = localStorage.getItem("userId");
@@ -36,15 +37,14 @@ export const Footer = () => {
         type: containsUrl(_message) ? "Link" : "Text",
       });
 
-      // socket.emit("get_direct_conversations", { user_id: userId }, (data) => {
-      //   dispatch({
-      //     type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS,
-      //     payload: data,
-      //   });
-      // });
+      socket.emit("get_direct_conversations", { user_id: userId }, (data) => {
+        dispatch({
+          type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS,
+          payload: data,
+        });
+      });
       setMessage("");
     }
-    // dispatch(ConversationActions.getDirectConversation());
   };
 
   return (

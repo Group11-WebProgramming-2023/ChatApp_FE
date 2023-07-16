@@ -40,7 +40,7 @@ export const Login = () => {
         Login
       </Text>
       <Text align="center" color="dimmed" fz="xl">
-        Welcome to the chat app. Login and start chatting
+        Welcome to the chat app
       </Text>
       <Center mt={"sm"}>
         <Card shadow="md" w={360}>
@@ -73,7 +73,7 @@ export const Login = () => {
                 <Text
                   color="dimmed"
                   sx={{ cursor: "pointer" }}
-                  // onClick={() => navigate(ROUTER.FORGOT_PWD)}
+                  onClick={() => navigate(ROUTER.FORGOT_PWD)}
                 >
                   Forgot password
                 </Text>

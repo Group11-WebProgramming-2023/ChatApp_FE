@@ -16,7 +16,7 @@ interface useCallApiProps {
 
 interface UseCallApiResponse {
   response: AxiosResponse | null;
-  error: unknown;
+  error: any;
 }
 
 export const useCallApi = async (

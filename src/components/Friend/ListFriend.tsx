@@ -39,9 +39,9 @@ export const ListFriend = () => {
   return (
     <Center>
       <Stack p={"xl"} w={"100%"}>
-        <Group>
+        {/* <Group>
           <Input placeholder="Tìm kiếm" />
-        </Group>
+        </Group> */}
         <Grid gutter={"xl"}>
           {allFriends.map((friend) => (
             <Col span={6} key={friend._id}>

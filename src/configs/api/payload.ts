@@ -14,6 +14,11 @@ export type ForgotPasswordPayload = {
   email: string;
 };
 
+export type ResetPasswordPayload = {
+  newPassword: string;
+  token?: string;
+};
+
 export type VerifyOTPPayload = {
   email: string;
   otp: string;
@@ -29,4 +34,5 @@ export type ApiPayload =
   | ForgotPasswordPayload
   | VerifyOTPPayload
   | string
-  | StartCallPayload;
+  | StartCallPayload
+  | ResetPasswordPayload;

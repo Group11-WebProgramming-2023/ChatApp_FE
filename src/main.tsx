@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { Provider as ReduxProvider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { Notifications as NotificationsProvider } from "@mantine/notifications";
 import "./index.css";
 import store from "./redux/store";
 import Router from "./routes";
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     >
       <BrowserRouter>
         <AuthProvider>
+          <NotificationsProvider />
           <Router />
         </AuthProvider>
       </BrowserRouter>

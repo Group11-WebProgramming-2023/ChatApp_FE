@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { UserAction } from "@/redux/reducer/user/user.action";
+import { NotiType, renderNotification } from "@/utils/notifications";
 import { SocketEvents, socket } from "@/utils/socket";
 import {
   Avatar,
@@ -21,24 +22,24 @@ export const FriendRequest = () => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
   const { allRequests } = useAppSelector((state: RootState) => state.user);
-  console.log(allRequests);
+
   useLayoutEffect(() => {
     dispatch(UserAction.getAllRequests());
   }, [dispatch]);
 
   const handleAcceptRequest = (requestId: string | undefined) => {
     if (requestId) {
-      console.log(requestId);
       socket.emit(SocketEvents.ACCEPT_REQUEST, { request_id: requestId });
+      renderNotification("You have accepted friend request", NotiType.SUCCESS);
     }
   };
 
   return (
     <Center>
       <Stack p={"xl"} w={"100%"}>
-        <Group>
+        {/* <Group>
           <Input placeholder="Tìm kiếm" />
-        </Group>
+        </Group> */}
         <Grid gutter={"xl"}>
           {allRequests.map((request) => (
             <Col span={6} key={request._id}>
