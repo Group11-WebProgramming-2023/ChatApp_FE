@@ -1,7 +1,7 @@
 import { CallCard } from "@/components/Call/CallCard";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
-import { CallAction } from "@/redux/reducer/call/call.action";
+import { CallAction } from "@/redux/reducer/audioCall/audioCall.action";
 import { UserAction } from "@/redux/reducer/user/user.action";
 import { ICall } from "@/types/models/ICall";
 import {
@@ -36,7 +36,7 @@ export const Call = () => {
   const dispatch = useAppDispatch();
 
   const { allFriends } = useAppSelector((state: RootState) => state.user);
-  const { calllog } = useAppSelector((state: RootState) => state.call);
+  const { calllog } = useAppSelector((state: RootState) => state.audioCall);
 
   useEffect(() => {
     dispatch(UserAction.getAllFriends());

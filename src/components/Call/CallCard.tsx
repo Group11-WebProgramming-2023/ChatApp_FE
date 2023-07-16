@@ -1,5 +1,6 @@
 import { useAppDispatch } from "@/hooks/redux";
-import { CallAction } from "@/redux/reducer/call/call.action";
+import { AudioCallAction } from "@/redux/reducer/audioCall/audioCall.action";
+import { VideoCallAction } from "@/redux/reducer/videoCall/videoCall.action";
 import { IUser } from "@/types/models/IUser";
 import {
   Avatar,
@@ -21,10 +22,18 @@ export const CallCard = ({ user, close }: Props) => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
 
-  const handleCall = () => {
+  const handleAudioCall = () => {
     console.log(user._id);
     if (user._id) {
-      dispatch(CallAction.startAudioCall({ id: user._id }));
+      dispatch(AudioCallAction.startAudioCall({ id: user._id }));
+      close();
+    }
+  };
+
+  const handleVideoCall = () => {
+    console.log(user._id);
+    if (user._id) {
+      dispatch(VideoCallAction.startVideoCall({ id: user._id }));
       close();
     }
   };
@@ -47,9 +56,14 @@ export const CallCard = ({ user, close }: Props) => {
               cursor={"pointer"}
               size={"1rem"}
               color={theme.colors.green[5]}
-              onClick={() => handleCall()}
+              onClick={() => handleAudioCall()}
             />
-            <IconVideo size={"1rem"} color={theme.colors.green[5]} />
+            <IconVideo
+              cursor={"pointer"}
+              size={"1rem"}
+              color={theme.colors.green[5]}
+              onClick={() => handleVideoCall()}
+            />
           </Group>
         </Col>
       </Grid>

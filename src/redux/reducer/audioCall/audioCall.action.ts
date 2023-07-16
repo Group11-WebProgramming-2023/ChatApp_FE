@@ -3,12 +3,12 @@ import { API_URLS } from "@/configs/api/endpoint";
 import { StartCallPayload } from "@/configs/api/payload";
 import { AppDispatch } from "@/redux/store";
 import { Callback } from "@/types/others/callback";
-import { CallActionType, CallThunkAction } from "./call.type";
+import { AudioCallActionType, AudioCallThunkAction } from "./audioCall.type";
 
 const startAudioCall =
-  (payload: StartCallPayload, cb?: Callback): CallThunkAction =>
+  (payload: StartCallPayload, cb?: Callback): AudioCallThunkAction =>
   async (dispatch: AppDispatch) => {
-    dispatch({ type: CallActionType.RESET_AUDIO_QUEUE });
+    dispatch({ type: AudioCallActionType.RESET_AUDIO_QUEUE });
 
     const api = API_URLS.User.startAudioCall();
 
@@ -16,7 +16,7 @@ const startAudioCall =
 
     if (!error && response?.status === 200) {
       dispatch({
-        type: CallActionType.PUSH_TO_AUDIO_QUEUE,
+        type: AudioCallActionType.PUSH_TO_AUDIO_QUEUE,
         payload: {
           call: response.data.data,
           incoming: false,
@@ -28,17 +28,19 @@ const startAudioCall =
     }
   };
 
-const getCallLog = (): CallThunkAction => async (dispatch: AppDispatch) => {
+export const AudioCallAction = { startAudioCall };
+
+const getCallLog = (): AudioCallThunkAction => async (dispatch: AppDispatch) => {
   const api = API_URLS.User.getCallLog();
 
   const { response, error } = await useCallApi({ ...api });
   if (!error && response?.status) {
     dispatch({
-      type: CallActionType.GET_CALL_LOG,
+      type: AudioCallActionType.GET_AUDIO_CALL_LOG,
       payload: response.data.data,
     });
   } else {
     console.log(error);
   }
 };
-export const CallAction = { startAudioCall, getCallLog };
+export const CallAction = { getCallLog };

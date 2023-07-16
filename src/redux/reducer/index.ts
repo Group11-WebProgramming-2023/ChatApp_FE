@@ -1,12 +1,14 @@
 import { Reducer, combineReducers } from "redux";
 import conversationReducer from "./conversation/conversation.reducer";
 import userReducer from "./user/user.reducer";
-import callReducer from "./call/call.reducer";
+import audioCallReducer from "./audioCall/audioCall.reducer";
+import videoCallReducer from "./videoCall/videoCall.reducer";
 
 const rootReducer = combineReducers({
   conversation: conversationReducer,
   user: userReducer,
-  call: callReducer,
+  audioCall: audioCallReducer,
+  videoCall: videoCallReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

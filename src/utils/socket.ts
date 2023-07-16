@@ -1,3 +1,4 @@
+import { CONFIG } from "@/configs";
 import { IConversation } from "@/types/models/IConversation";
 import { IMessage, ISocketMessage } from "@/types/models/IMessage";
 import { io, Socket } from "socket.io-client";
@@ -8,11 +9,17 @@ interface ServerToClientEvents {
   withAck: (d: string, callback: (e: number) => void) => void;
   new_message: (data: IMessage) => void;
   new_friend_request: (data: ISocketMessage) => void;
-  audio_call_notification: (data: AudioCallNotificationPayload) => void;
   start_chat: (data: IConversation) => void;
+
+  audio_call_notification: (data: AudioCallNotificationPayload) => void;
   audio_call_accepted: (data: FriendRequestPayload) => void;
   audio_call_denied: () => void;
   audio_call_missed: () => void;
+
+  video_call_notification: (data: AudioCallNotificationPayload) => void;
+  video_call_accepted: (data: FriendRequestPayload) => void;
+  video_call_denied: () => void;
+  video_call_missed: () => void;
 }
 
 export enum SocketEvents {
@@ -36,7 +43,17 @@ export enum SocketEvents {
   AUDIO_CALL_DENIED = "audio_call_denied",
   AUDIO_CALL_ACCEPTED = "audio_call_accepted",
   AUDIO_CALL_NOT_PICKED = "audio_call_not_picked",
-  USER_IS_BUSY_AUDIO_CALL = "user_is_busy_audio_call"
+  USER_IS_BUSY_AUDIO_CALL = "user_is_busy_audio_call",
+  AUDIO_CALL_MISSED = 'audio_call_missed',
+
+  //video call
+  VIDEO_CALL_NOTIFICATION = "video_call_notification",
+  START_VIDEO_CALL = "start_video_call",
+  VIDEO_CALL_DENIED = "video_call_denied",
+  VIDEO_CALL_ACCEPTED = "video_call_accepted",
+  VIDEO_CALL_NOT_PICKED = "video_call_not_picked",
+  USER_IS_BUSY_VIDEO_CALL = "user_is_busy_video_call",
+  VIDEO_CALL_MISSED = 'video_call_missed',
 }
 
 interface AudioCallNotificationPayload {
@@ -105,18 +122,25 @@ interface ClientToServerEvents {
   friend_request: (args: FriendRequestPayload, callback: () => void) => void;
   accept_request: (args: { request_id: string }) => void;
 
-  //call
+  //audio call
   start_audio_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
   audio_call_accepted: (arg: unknown) => void;
   audio_call_denied: (arg: unknown) => void;
   audio_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
   user_is_busy_audio_call: (arg: unknown) => void;
+
+  //video call
+  start_video_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
+  video_call_accepted: (arg: unknown) => void;
+  video_call_denied: (arg: unknown) => void;
+  video_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
+  user_is_busy_video_call: (arg: unknown) => void;
 }
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
 const connectSocket = (user_id: string) => {
-  socket = io("http://localhost:8000/", {
+  socket = io(`${CONFIG.APP_URL}/`, {
     query: `user_id=${user_id}`,
   });
   console.log(socket);

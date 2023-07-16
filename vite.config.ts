@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      host: "localhost",
+      host: true,
       port: +env.VITE_PORT,
       open: true,
     },

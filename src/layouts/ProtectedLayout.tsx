@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import Logo from "@/assets/img/logo.png";
-import { CallModal } from "@/components/Call/CallModal";
-import { CallNotification } from "@/components/Call/CallNotification";
+import { AudioCallModal } from "@/components/Call/Audio/AudioCallModal";
+import { AudioCallNotification } from "@/components/Call/Audio/AudioCallNotification";
+import { VideoCallModal } from "@/components/Call/Video/VideoCallModal";
+import { VideoCallNotification } from "@/components/Call/Video/VideoCallNotification";
 import { useAuthContext } from "@/hooks/context";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
-import { CallActionType } from "@/redux/reducer/call/call.type";
+import { AudioCallActionType } from "@/redux/reducer/audioCall/audioCall.type";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
+import { VideoCallActionType } from "@/redux/reducer/videoCall/videoCall.type";
 import { ROUTER } from "@/routes/path";
 import { NotiType, renderNotification } from "@/utils/notifications";
 import { SocketEvents, connectSocket, socket } from "@/utils/socket";
@@ -178,7 +181,15 @@ const ProtectedLayout = () => {
       socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
         console.log(data);
         dispatch({
-          type: CallActionType.PUSH_TO_AUDIO_QUEUE,
+          type: AudioCallActionType.PUSH_TO_AUDIO_QUEUE,
+          payload: { call: data, incoming: true },
+        });
+      });
+
+      socket.on(SocketEvents.VIDEO_CALL_NOTIFICATION, (data) => {
+        console.log(data);
+        dispatch({
+          type: VideoCallActionType.PUSH_TO_VIDEO_QUEUE,
           payload: { call: data, incoming: true },
         });
       });
@@ -194,16 +205,13 @@ const ProtectedLayout = () => {
   if (!localStorage.getItem("token")) {
     return <Navigate to={ROUTER.LOGIN} />;
   }
-  const { open_audio_notification_modal } = useAppSelector(
-    (state: RootState) => state.call
+  const { open_audio_notification_modal, open_audio_modal } = useAppSelector(
+    (state: RootState) => state.audioCall
   );
-  console.log(open_audio_notification_modal);
-  // const [openedCallNoti, { close: closeCallNoti, open: openCallNoti }] =
-  //   useDisclosure(open_audio_notification_modal);
 
-  const { open_audio_modal } = useAppSelector((state: RootState) => state.call);
-  // const [openedCallModal, { close: closeCallModal, open: openCallModal }] =
-  //   useDisclosure(open_audio_modal);
+  const { open_video_notification_modal, open_video_modal } = useAppSelector(
+    (state: RootState) => state.videoCall
+  );
 
   console.log(open_audio_modal);
   const selected_conversation_id = useAppSelector(
@@ -270,16 +278,17 @@ const ProtectedLayout = () => {
         <Outlet />
       </AppShell>
 
+      {/* audio modal */}
       <Modal
         centered
         opened={open_audio_notification_modal}
         onClose={() =>
-          dispatch({ type: CallActionType.CLOSE_AUDIO_NOTI_MODAL })
+          dispatch({ type: AudioCallActionType.CLOSE_AUDIO_NOTI_MODAL })
         }
       >
-        <CallNotification
+        <AudioCallNotification
           close={() =>
-            dispatch({ type: CallActionType.CLOSE_AUDIO_NOTI_MODAL })
+            dispatch({ type: AudioCallActionType.CLOSE_AUDIO_NOTI_MODAL })
           }
         />
       </Modal>
@@ -289,15 +298,50 @@ const ProtectedLayout = () => {
         opened={open_audio_modal}
         onClose={() =>
           dispatch({
-            type: CallActionType.UPDATE_AUDIO_CALL_MODAL,
+            type: AudioCallActionType.UPDATE_AUDIO_CALL_MODAL,
             payload: false,
           })
         }
       >
-        <CallModal
+        <AudioCallModal
           close={() =>
             dispatch({
-              type: CallActionType.UPDATE_AUDIO_CALL_MODAL,
+              type: AudioCallActionType.UPDATE_AUDIO_CALL_MODAL,
+              payload: false,
+            })
+          }
+        />
+      </Modal>
+
+      {/* video modal */}
+      <Modal
+        centered
+        opened={open_video_notification_modal}
+        onClose={() =>
+          dispatch({ type: VideoCallActionType.CLOSE_VIDEO_NOTI_MODAL })
+        }
+      >
+        <VideoCallNotification
+          close={() =>
+            dispatch({ type: VideoCallActionType.CLOSE_VIDEO_NOTI_MODAL })
+          }
+        />
+      </Modal>
+
+      <Modal
+        centered
+        opened={open_video_modal}
+        onClose={() =>
+          dispatch({
+            type: VideoCallActionType.UPDATE_VIDEO_CALL_MODAL,
+            payload: false,
+          })
+        }
+      >
+        <VideoCallModal
+          close={() =>
+            dispatch({
+              type: VideoCallActionType.UPDATE_VIDEO_CALL_MODAL,
               payload: false,
             })
           }
