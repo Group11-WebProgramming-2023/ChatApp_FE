@@ -15,12 +15,14 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconMessage } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 export const ListFriend = () => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
   const { allFriends } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -38,24 +40,24 @@ export const ListFriend = () => {
 
   return (
     <Center>
-      <Stack p={"xl"} w={"100%"}>
+      <Stack p={"md"} w={"100%"}>
         {/* <Group>
           <Input placeholder="Tìm kiếm" />
         </Group> */}
-        <Grid gutter={"xl"}>
+        <Grid gutter={"md"}>
           {allFriends.map((friend) => (
-            <Col span={6} key={friend._id}>
+            <Col xs={12} md={6} key={friend._id}>
               <Card radius={"md"} withBorder>
-                <Grid align="center" px={"lg"}>
-                  <Col span={2}>
+                <Grid align="center" px={"xs"}>
+                  <Col sm={1} md={2}>
                     <Avatar radius={"sm"} size={"lg"} />
                   </Col>
-                  <Col span={9}>
+                  <Col sm={8} md={8}>
                     <Text fw={500}>
                       {friend.firstName} {friend.lastName}
                     </Text>
                   </Col>
-                  <Col span={1}>
+                  <Col sm={1} md={2}>
                     <IconMessage
                       size={"1.5rem"}
                       color={theme.colors.blue[5]}

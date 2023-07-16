@@ -12,13 +12,16 @@ import {
   Grid,
   Stack,
   Text,
+  useMantineTheme,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { IconUserPlus } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 export const AllUser = () => {
   const dispatch = useAppDispatch();
-
+  const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
   const { allUsers } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
@@ -40,17 +43,17 @@ export const AllUser = () => {
 
   return (
     <Center>
-      <Stack p={"xl"} w={"100%"}>
+      <Stack p={"md"} w={"100%"}>
         {/* <Group>
           <Input placeholder="Search" />
         </Group> */}
-        <Grid gutter={"xl"}>
+        <Grid gutter={"md"}>
           {allUsers.map((user) => (
-            <Col span={6}>
+            <Col xs={12} md={6} key={user._id}>
               <Card radius={"md"} withBorder>
                 <Grid align="center">
                   <Col span={2}>
-                    <Avatar radius={"sm"} size={"lg"} />
+                    <Avatar radius={"sm"} size={matches ? "lg" : "md"} />
                   </Col>
                   <Col span={6}>
                     <Text fw={500}>
@@ -61,8 +64,9 @@ export const AllUser = () => {
                     <Button
                       rightIcon={<IconUserPlus size={"1rem"} />}
                       onClick={() => handleAddFriend(user._id)}
+                      size={matches ? "md" : "xs"}
                     >
-                      Add friend
+                      Add
                     </Button>
                   </Col>
                 </Grid>

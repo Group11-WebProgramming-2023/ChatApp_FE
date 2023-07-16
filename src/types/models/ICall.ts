@@ -3,9 +3,11 @@ import { BaseModel } from ".";
 export interface ICall extends BaseModel {
   firstName: string;
   lastName: string;
-  incoming: boolean;
+  isCaller: boolean;
+  type: ICallType;
   missed: boolean;
   id: string;
+  img?: string;
 }
 
 export enum ICallStatus {
@@ -15,6 +17,6 @@ export enum ICallStatus {
 }
 
 export enum ICallType {
-  VOICE = "VOICE",
-  VIDEO = "VIDEO",
+  VOICE = "audio",
+  VIDEO = "video",
 }

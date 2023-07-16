@@ -11,6 +11,7 @@ import {
   Card,
   Col,
   Grid,
+  ScrollArea,
   Stack,
   Text,
   TextInput,
@@ -52,7 +53,7 @@ export const GeneralApp = () => {
       md={12}
       lg={3}
       p={0}
-      h={"100vh"}
+      h={matches ? "100vh" : "calc(100vh - 70px)"}
       sx={matches ? { borderRight: `1px solid ${theme.colors.gray[3]}` } : {}}
     >
       <Stack spacing={"md"} p={"lg"} h={"100%"}>
@@ -64,21 +65,21 @@ export const GeneralApp = () => {
           icon={<IconSearch size={"1rem"} color={theme.colors.blue[5]} />}
           placeholder="Search"
         />
-        <Text fw={"bold"} color="dimmed" fz={"sm"}>
+        {/* <Text fw={"bold"} color="dimmed" fz={"sm"}>
           Pinned
-        </Text>
+        </Text> */}
 
         <Text fw={"bold"} color="dimmed" fz={"sm"}>
           All chats
         </Text>
-        <Stack>
+        <ScrollArea p={0} sx={{ flex: "1 0 0" }}>
           {conversations.map((conversation) => (
             <ConversationCard
               key={conversation._id}
               conversation={conversation}
             />
           ))}
-        </Stack>
+        </ScrollArea>
       </Stack>
     </Col>
   );
@@ -419,7 +420,7 @@ export const GeneralApp = () => {
   );
 
   return (
-    <Grid p={0} m={0} h={"100vh - 70"} gutter={0}>
+    <Grid p={0} m={0} h={matches ? "100vh" : "calc(100vh - 70px)"} gutter={0}>
       {matches ? Left : selected_conversation_id ? null : Left}
 
       {matches ? Middle : selected_conversation_id ? Middle : null}
@@ -461,10 +462,11 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
 
   return (
     <Card
-      withBorder
+      // withBorder
       p={"xs"}
       fz={"xs"}
       radius={"md"}
+      my={"xs"}
       onClick={handleSelectConversation}
       bg={isSelectedConversation() ? "blue" : "white"}
       c={isSelectedConversation() ? "white" : ""}

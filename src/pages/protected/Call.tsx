@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { CallAction } from "@/redux/reducer/audioCall/audioCall.action";
 import { UserAction } from "@/redux/reducer/user/user.action";
-import { ICall } from "@/types/models/ICall";
+import { ICall, ICallType } from "@/types/models/ICall";
 import {
+  Avatar,
   Card,
   Col,
   Divider,
@@ -21,7 +22,6 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
   IconArrowDownLeft,
   IconArrowUpRight,
-  IconCamera,
   IconPhone,
   IconSearch,
   IconVideo,
@@ -49,7 +49,7 @@ export const Call = () => {
         m={0}
         p={0}
         // h={"100vh"}
-        sx={{ height: "calc(100vh - 70px)" }}
+        h={matches ? "100vh" : "calc(100vh - 70px)"}
       >
         <Col
           md={12}
@@ -111,31 +111,37 @@ const CallLogCard = ({ call }: CallLogCardProps) => {
   return (
     <Card p={"xs"} fz={"xs"} radius={"md"} my={"xs"}>
       <Grid align="center">
-        <Col span={8}>
+        <Col span={2}>
+          <Avatar src={call.img} size={"md"} radius={"xl"} />
+        </Col>
+        <Col span={7}>
           <Stack spacing={0}>
             <Text
               fz={"md"}
               fw={450}
             >{`${call.firstName} ${call.lastName}`}</Text>
-            {call.incoming ? (
+            {!call.isCaller ? (
               <IconArrowDownLeft color={call.missed ? "red" : "green"} />
             ) : (
               <IconArrowUpRight color={call.missed ? "red" : "green"} />
             )}
           </Stack>
         </Col>
-        <Col span={4}>
+        <Col span={2}>
           <Group position="right">
-            <IconPhone
-              size={"1.2rem"}
-              cursor={"pointer"}
-              color={theme.colors.blue[5]}
-            />
-            <IconVideo
-              size={"1.2rem"}
-              cursor={"pointer"}
-              color={theme.colors.blue[5]}
-            />
+            {call.type == ICallType.VIDEO ? (
+              <IconVideo
+                size={"1.2rem"}
+                cursor={"pointer"}
+                color={theme.colors.blue[5]}
+              />
+            ) : (
+              <IconPhone
+                size={"1.2rem"}
+                cursor={"pointer"}
+                color={theme.colors.blue[5]}
+              />
+            )}
           </Group>
         </Col>
       </Grid>
