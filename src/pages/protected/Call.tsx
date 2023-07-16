@@ -35,7 +35,7 @@ export const Call = () => {
 
   useEffect(() => {
     dispatch(UserAction.getAllFriends());
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

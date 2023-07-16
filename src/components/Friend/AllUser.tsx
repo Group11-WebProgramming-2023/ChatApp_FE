@@ -16,16 +16,16 @@ import {
   Text,
 } from "@mantine/core";
 import { IconUserPlus } from "@tabler/icons-react";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 export const AllUser = () => {
   const dispatch = useAppDispatch();
 
   const { allUsers } = useAppSelector((state: RootState) => state.user);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(UserAction.getAllUser());
-  }, [dispatch]);
+  }, []);
 
   const handleAddFriend = (toId: string | undefined) => {
     const userId = localStorage.getItem("userId");

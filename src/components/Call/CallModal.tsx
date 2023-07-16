@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const CallModal = ({ close }: Props) => {
-  const audioStreamRef = useRef(null);
+  const audioStreamRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   //* Use params from call_details if available => like in case of receiver's end
 
@@ -78,7 +78,7 @@ export const CallModal = ({ close }: Props) => {
       // TODO => You can play an audio indicating missed call at this line at sender's end
 
       socket.emit(
-        "audio_call_not_picked",
+        SocketEvents.AUDIO_CALL_NOT_PICKED,
         { to: streamID, from: userID },
         () => {
           // TODO abort call => Call verdict will be marked as Missed
@@ -113,13 +113,11 @@ export const CallModal = ({ close }: Props) => {
     });
 
     // make a POST API call to server & fetch token
-
     let zego_token: string;
 
     async function fetchToken() {
-      // You can await here
       const response = await axios.post(
-        "/user/generate-zego-token",
+        "http://localhost:8000/user/generate-zego-token",
         {
           userId: userID,
           room_id: roomID,
@@ -133,12 +131,10 @@ export const CallModal = ({ close }: Props) => {
       );
       console.log(response, "TOKEN RESPONSE");
       zego_token = response.data.token;
-      // ...
     }
     fetchToken();
 
     // Step 2 => Check browser compatibility
-
     zg.checkSystemRequirements()
       .then((result) => {
         // The [result] indicates whether it is compatible. It indicates WebRTC is supported when the [webRTC] is [true]. For more results, see the API documents.
@@ -300,7 +296,13 @@ export const CallModal = ({ close }: Props) => {
           <audio id="remote-audio" controls={false} />
         </Stack>
       </Group>
-      <Button color="red.5" leftIcon={<IconPhoneOff />}>
+      <Button
+        color="red.5"
+        leftIcon={<IconPhoneOff />}
+        onClick={() => {
+          handleDisconnect();
+        }}
+      >
         Disconnnect
       </Button>
     </Stack>

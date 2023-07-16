@@ -1,3 +1,4 @@
+import { API_URLS } from "@/configs/api/endpoint";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { UserAction } from "@/redux/reducer/user/user.action";
@@ -15,16 +16,16 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { IconMessage } from "@tabler/icons-react";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 export const ListFriend = () => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
   const { allFriends } = useAppSelector((state: RootState) => state.user);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     dispatch(UserAction.getAllFriends());
-  }, [dispatch]);
+  }, []);
 
   const handleStartConversation = (toId: string | undefined) => {
     if (toId) {
