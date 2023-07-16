@@ -1,11 +1,14 @@
 import { AppDispatch } from "@/redux/store";
-import { ConversationActionType } from "./conversation.type";
+import {
+  ConversationActionType,
+  SelectConversationPayload,
+} from "./conversation.type";
 
 const SelectConversation =
-  (room_id: string) => async (dispatch: AppDispatch) => {
+  (payload: SelectConversationPayload) => async (dispatch: AppDispatch) => {
     dispatch({
       type: ConversationActionType.SELECT_CONVERSATION,
-      payload: room_id,
+      payload: payload,
     });
   };
 

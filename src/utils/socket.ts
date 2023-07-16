@@ -11,14 +11,19 @@ interface ServerToClientEvents {
   audio_call_notification: (data: AudioCallNotificationPayload) => void;
   start_chat: (data: IConversation) => void;
   audio_call_accepted: (data: FriendRequestPayload) => void;
+  audio_call_denied: () => void;
+  audio_call_missed: () => void;
 }
 
 export enum SocketEvents {
   GET_DIRECT_CONVERSATIONS = "get_direct_conversations",
   TEXT_MESSAGE = "text_message",
   NEW_MESSAGE = "new_message",
+
+  //friend
   FRIEND_REQUEST = "friend_request",
   NEW_FRIEND_REQUEST = "new_friend_request",
+  ACCEPT_REQUEST = "accept_request",
 
   //message
   GET_MESSAGES = "get_messages",
@@ -30,6 +35,8 @@ export enum SocketEvents {
   START_AUDIO_CALL = "start_audio_call",
   AUDIO_CALL_DENIED = "audio_call_denied",
   AUDIO_CALL_ACCEPTED = "audio_call_accepted",
+  AUDIO_CALL_NOT_PICKED = "audio_call_not_picked",
+  USER_IS_BUSY_AUDIO_CALL = "user_is_busy_audio_call"
 }
 
 interface AudioCallNotificationPayload {
@@ -96,11 +103,14 @@ interface ClientToServerEvents {
 
   //friend
   friend_request: (args: FriendRequestPayload, callback: () => void) => void;
+  accept_request: (args: { request_id: string }) => void;
 
   //call
   start_audio_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
   audio_call_accepted: (arg: unknown) => void;
   audio_call_denied: (arg: unknown) => void;
+  audio_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
+  user_is_busy_audio_call: (arg: unknown) => void;
 }
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents>;

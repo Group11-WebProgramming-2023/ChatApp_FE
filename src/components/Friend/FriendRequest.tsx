@@ -1,4 +1,3 @@
-import { API_URLS } from "@/configs/api/endpoint";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { UserAction } from "@/redux/reducer/user/user.action";
@@ -15,24 +14,22 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import { IconMessage } from "@tabler/icons-react";
-import { useEffect } from "react";
+import { IconAccessPoint } from "@tabler/icons-react";
+import { useLayoutEffect } from "react";
 
-export const ListFriend = () => {
+export const FriendRequest = () => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
-  const { allFriends } = useAppSelector((state: RootState) => state.user);
+  const { allRequests } = useAppSelector((state: RootState) => state.user);
+  console.log(allRequests);
+  useLayoutEffect(() => {
+    dispatch(UserAction.getAllRequests());
+  }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(UserAction.getAllFriends());
-  }, []);
-
-  const handleStartConversation = (toId: string | undefined) => {
-    if (toId) {
-      socket.emit(SocketEvents.START_CONVERSATION, {
-        from: localStorage.getItem("userId") || "",
-        to: toId,
-      });
+  const handleAcceptRequest = (requestId: string | undefined) => {
+    if (requestId) {
+      console.log(requestId);
+      socket.emit(SocketEvents.ACCEPT_REQUEST, { request_id: requestId });
     }
   };
 
@@ -43,8 +40,8 @@ export const ListFriend = () => {
           <Input placeholder="Tìm kiếm" />
         </Group>
         <Grid gutter={"xl"}>
-          {allFriends.map((friend) => (
-            <Col span={6} key={friend._id}>
+          {allRequests.map((request) => (
+            <Col span={6} key={request._id}>
               <Card radius={"md"} withBorder>
                 <Grid align="center" px={"lg"}>
                   <Col span={2}>
@@ -52,15 +49,15 @@ export const ListFriend = () => {
                   </Col>
                   <Col span={9}>
                     <Text fw={500}>
-                      {friend.firstName} {friend.lastName}
+                      {request.sender.firstName} {request.sender.lastName}
                     </Text>
                   </Col>
                   <Col span={1}>
-                    <IconMessage
+                    <IconAccessPoint
                       size={"1.5rem"}
                       color={theme.colors.blue[5]}
                       cursor={"pointer"}
-                      onClick={() => handleStartConversation(friend._id)}
+                      onClick={() => handleAcceptRequest(request._id)}
                     />
                   </Col>
                 </Grid>

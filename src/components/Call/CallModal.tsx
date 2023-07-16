@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const CallModal = ({ close }: Props) => {
-  const audioStreamRef = useRef(null);
+  const audioStreamRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   //* Use params from call_details if available => like in case of receiver's end
 
@@ -78,7 +78,7 @@ export const CallModal = ({ close }: Props) => {
       // TODO => You can play an audio indicating missed call at this line at sender's end
 
       socket.emit(
-        "audio_call_not_picked",
+        SocketEvents.AUDIO_CALL_NOT_PICKED,
         { to: streamID, from: userID },
         () => {
           // TODO abort call => Call verdict will be marked as Missed
@@ -296,7 +296,13 @@ export const CallModal = ({ close }: Props) => {
           <audio id="remote-audio" controls={false} />
         </Stack>
       </Group>
-      <Button color="red.5" leftIcon={<IconPhoneOff />}>
+      <Button
+        color="red.5"
+        leftIcon={<IconPhoneOff />}
+        onClick={() => {
+          handleDisconnect();
+        }}
+      >
         Disconnnect
       </Button>
     </Stack>

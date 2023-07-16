@@ -1,10 +1,11 @@
 import { IUser } from "@/types/models/IUser";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "..";
+import { IRequest } from "@/types/models/IRequest";
 
 export interface UserState {
   allUsers: IUser[];
-  allRequests: IUser[];
+  allRequests: IRequest[];
   allFriends: IUser[];
 }
 
@@ -21,7 +22,7 @@ export interface GetAllUser {
 
 export interface GetAllRequest {
   type: UserActionType.GET_ALL_REQUEST;
-  payload: IUser[];
+  payload: IRequest[];
 }
 
 export interface GetAllFriends {

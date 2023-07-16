@@ -16,7 +16,8 @@ import {
   AppShell,
   Avatar,
   Center,
-  Container,
+  Col,
+  Grid,
   Image,
   Modal,
   Navbar,
@@ -35,7 +36,7 @@ import {
   IconPhone,
   IconUsersGroup,
 } from "@tabler/icons-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
@@ -145,7 +146,7 @@ const ProtectedLayout = () => {
     />
   ));
 
-  const userId = localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId") || "";
 
   useEffect(() => {
     if (userId && !socket) {
@@ -155,8 +156,6 @@ const ProtectedLayout = () => {
       socket.on(SocketEvents.NEW_FRIEND_REQUEST, (data) => {
         renderNotification("You have new friend request", NotiType.SUCCESS);
       });
-
-      socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {});
 
       socket.on(SocketEvents.START_CHAT, (data) => {
         dispatch({
@@ -171,17 +170,17 @@ const ProtectedLayout = () => {
       });
 
       socket.on(SocketEvents.NEW_MESSAGE, (data) => {
-        console.log(data);
-        // dispatch({
-        //   type: ConversationActionType.NEW_MESSAGE,
-        //   payload: data,
-        // });
+        dispatch({
+          type: ConversationActionType.NEW_MESSAGE,
+          payload: data,
+        });
       });
 
       socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
+        console.log(data);
         dispatch({
           type: CallActionType.PUSH_TO_AUDIO_QUEUE,
-          payload: { data, incoming: true },
+          payload: { call: data, incoming: true },
         });
       });
     }
@@ -211,8 +210,10 @@ const ProtectedLayout = () => {
   return (
     <>
       <AppShell
-        m={0}
-        p={0}
+        m={"0px"}
+        p={"0"}
+        padding={0}
+        h={"100vh"}
         navbar={
           <Navbar height={"100vh"} width={{ base: 80 }} p="md">
             <Center>

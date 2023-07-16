@@ -11,6 +11,7 @@ export interface ConversationState {
   };
   group_chat: unknown;
   selected_conversation_id: string;
+  seleted_to_id: string;
 }
 
 export enum ConversationActionType {
@@ -25,9 +26,14 @@ export interface FetchDirectConversations {
   payload: IConversation[];
 }
 
+export interface SelectConversationPayload {
+  conversation_id: string;
+  to_id: string;
+}
+
 export interface SelectConversation {
   type: ConversationActionType.SELECT_CONVERSATION;
-  payload: string;
+  payload: SelectConversationPayload;
 }
 
 export interface GetMessages {
