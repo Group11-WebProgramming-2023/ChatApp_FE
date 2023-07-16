@@ -1,11 +1,12 @@
 import { BackgroundImage, Box, Center, Grid, MediaQuery } from "@mantine/core";
 import { Navigate, Outlet } from "react-router-dom";
 import bg from "@/assets/img/bg.gif";
-import { ROUTER } from "../configs/routers";
+
+import { ROUTER } from "@/routes/path";
 
 const AuthLayout = () => {
   if (localStorage.getItem("authUser")) {
-    return <Navigate to={ROUTER.BASE} />;
+    return <Navigate to={ROUTER.APP} />;
   }
 
   return (

@@ -1,10 +1,10 @@
 import { CallCard } from "@/components/Call/CallCard";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
+import { CallAction } from "@/redux/reducer/audioCall/audioCall.action";
 import { UserAction } from "@/redux/reducer/user/user.action";
-import { ICall, ICallType } from "@/types/models/ICall";
+import { ICall } from "@/types/models/ICall";
 import {
-  Avatar,
   Card,
   Col,
   Divider,
@@ -17,9 +17,11 @@ import {
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import {
+  IconArrowDownLeft,
   IconArrowUpRight,
+  IconCamera,
   IconPhone,
   IconSearch,
   IconVideo,
@@ -28,20 +30,36 @@ import { useEffect } from "react";
 
 export const Call = () => {
   const theme = useMantineTheme();
+  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
+
   const [opened, { close, open }] = useDisclosure();
   const dispatch = useAppDispatch();
 
   const { allFriends } = useAppSelector((state: RootState) => state.user);
+  const { calllog } = useAppSelector((state: RootState) => state.audioCall);
 
   useEffect(() => {
     dispatch(UserAction.getAllFriends());
-  }, []);
+    dispatch(CallAction.getCallLog());
+  }, [dispatch]);
 
   return (
     <>
-      <Grid m={0} p={0}>
-        <Col span={3} p={"lg"}>
-          <Stack spacing={"md"}>
+      <Grid
+        m={0}
+        p={0}
+        // h={"100vh"}
+        sx={{ height: "calc(100vh - 70px)" }}
+      >
+        <Col
+          md={12}
+          lg={3}
+          p={0}
+          sx={
+            matches ? { borderRight: `1px solid ${theme.colors.gray[3]}` } : {}
+          }
+        >
+          <Stack spacing={"md"} p={"lg"} h={"100%"}>
             <Text fw={"bold"} fz={"lg"}>
               Call Log
             </Text>
@@ -51,19 +69,21 @@ export const Call = () => {
               placeholder="Search"
             />
             <Group position="apart">
-              <Text color={theme.colors.blue[5]} fz={"xs"}>
-                Start new conservation
+              <Text color={theme.colors.blue[5]} fz={"sm"} fw={500}>
+                Start new call
               </Text>
               <IconPhone
-                size={"1rem"}
+                size={"1.2rem"}
                 color={theme.colors.blue[5]}
                 cursor={"pointer"}
                 onClick={open}
               />
             </Group>
             <Divider />
-            <ScrollArea>
-              <Stack></Stack>
+            <ScrollArea p={0} sx={{ flex: "1 0 0" }}>
+              {calllog.map((call) => (
+                <CallLogCard call={call} />
+              ))}
             </ScrollArea>
           </Stack>
         </Col>
@@ -82,44 +102,43 @@ export const Call = () => {
   );
 };
 
-interface Props {
+interface CallLogCardProps {
   call: ICall;
 }
 
-// const CallCard = ({ call }: Props) => {
-//   const theme = useMantineTheme();
-
-//   const { user, type, status, time } = call;
-//   return (
-//     <Card p={"xs"} fz={"xs"} radius={"md"} bg={"white"}>
-//       <Grid align="center">
-//         <Col span={2}>
-//           <Avatar
-//             src={
-//               "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=250&q=80"
-//             }
-//             radius={"xl"}
-//           />
-//         </Col>
-//         <Col span={8}>
-//           <Stack spacing={0}>
-//             <Text fw={600} ml={2}>
-//               {user.name}
-//             </Text>
-//             <Group spacing={"xs"}>
-//               <IconArrowUpRight size={"1rem"} color={theme.colors.blue[5]} />
-//               <Text color="dimmed">{time}</Text>
-//             </Group>
-//           </Stack>
-//         </Col>
-//         <Col span={2}>
-//           {type === ICallType.VOICE ? (
-//             <IconPhone size={"1rem"} color={theme.colors.green[5]} />
-//           ) : (
-//             <IconVideo size={"1rem"} color={theme.colors.green[5]} />
-//           )}
-//         </Col>
-//       </Grid>
-//     </Card>
-//   );
-// };
+const CallLogCard = ({ call }: CallLogCardProps) => {
+  const theme = useMantineTheme();
+  return (
+    <Card p={"xs"} fz={"xs"} radius={"md"} my={"xs"}>
+      <Grid align="center">
+        <Col span={8}>
+          <Stack spacing={0}>
+            <Text
+              fz={"md"}
+              fw={450}
+            >{`${call.firstName} ${call.lastName}`}</Text>
+            {call.incoming ? (
+              <IconArrowDownLeft color={call.missed ? "red" : "green"} />
+            ) : (
+              <IconArrowUpRight color={call.missed ? "red" : "green"} />
+            )}
+          </Stack>
+        </Col>
+        <Col span={4}>
+          <Group position="right">
+            <IconPhone
+              size={"1.2rem"}
+              cursor={"pointer"}
+              color={theme.colors.blue[5]}
+            />
+            <IconVideo
+              size={"1.2rem"}
+              cursor={"pointer"}
+              color={theme.colors.blue[5]}
+            />
+          </Group>
+        </Col>
+      </Grid>
+    </Card>
+  );
+};

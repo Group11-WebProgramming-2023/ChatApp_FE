@@ -29,3 +29,18 @@ const startAudioCall =
   };
 
 export const AudioCallAction = { startAudioCall };
+
+const getCallLog = (): AudioCallThunkAction => async (dispatch: AppDispatch) => {
+  const api = API_URLS.User.getCallLog();
+
+  const { response, error } = await useCallApi({ ...api });
+  if (!error && response?.status) {
+    dispatch({
+      type: AudioCallActionType.GET_AUDIO_CALL_LOG,
+      payload: response.data.data,
+    });
+  } else {
+    console.log(error);
+  }
+};
+export const CallAction = { getCallLog };

@@ -47,6 +47,11 @@ export const API_URLS = {
       headers: HEADERS.authHeader(),
     }),
 
+    getCallLog: () => ({
+      endPoint: "/user/get-call-logs",
+      method: "GET",
+      headers: HEADERS.authHeader(),
+    }),
     //audio call
     startAudioCall: () => ({
       endPoint: "/user/start-audio-call",
