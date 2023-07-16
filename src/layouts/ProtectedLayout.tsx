@@ -193,12 +193,28 @@ const ProtectedLayout = () => {
           payload: { call: data, incoming: true },
         });
       });
+
+      socket.on(SocketEvents.AUDIO_CALL_DENIED, () => {
+        dispatch({
+          type: AudioCallActionType.RESET_AUDIO_QUEUE,
+        });
+      });
+
+      socket.on(SocketEvents.VIDEO_CALL_DENIED, () => {
+        dispatch({
+          type: VideoCallActionType.RESET_VIDEO_QUEUE,
+        });
+      });
     }
+
     return () => {
       socket?.off(SocketEvents.NEW_FRIEND_REQUEST);
       socket?.off(SocketEvents.AUDIO_CALL_NOTIFICATION);
       socket?.off(SocketEvents.START_CHAT);
       socket?.off(SocketEvents.NEW_MESSAGE);
+      socket?.off(SocketEvents.VIDEO_CALL_NOTIFICATION);
+      socket?.off(SocketEvents.AUDIO_CALL_DENIED);
+      socket?.off(SocketEvents.VIDEO_CALL_DENIED);
     };
   }, [socket]);
 
@@ -213,7 +229,6 @@ const ProtectedLayout = () => {
     (state: RootState) => state.videoCall
   );
 
-  console.log(open_audio_modal);
   const selected_conversation_id = useAppSelector(
     (state: RootState) =>
       state.conversation.direct_chat.current_conversation?._id

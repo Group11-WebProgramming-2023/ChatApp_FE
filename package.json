@@ -63,6 +63,7 @@
     "lint-staged": "^13.0.4",
     "redux-logger": "^3.0.6",
     "typescript": "^5.0.2",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-mkcert": "^1.16.0"
   }
 }

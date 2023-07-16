@@ -15,6 +15,7 @@ interface ServerToClientEvents {
   audio_call_accepted: (data: FriendRequestPayload) => void;
   audio_call_denied: () => void;
   audio_call_missed: () => void;
+  audio_call_end: () => void;
 
   video_call_notification: (data: AudioCallNotificationPayload) => void;
   video_call_accepted: (data: FriendRequestPayload) => void;
@@ -45,6 +46,7 @@ export enum SocketEvents {
   AUDIO_CALL_NOT_PICKED = "audio_call_not_picked",
   USER_IS_BUSY_AUDIO_CALL = "user_is_busy_audio_call",
   AUDIO_CALL_MISSED = 'audio_call_missed',
+  AUDIO_CALL_END = "audio_call_end",
 
   //video call
   VIDEO_CALL_NOTIFICATION = "video_call_notification",
@@ -89,7 +91,7 @@ export interface FriendRequestPayload {
 export interface StartAudioCallPayload {
   from: string;
   to: string;
-  coversation_id: string;
+  roomID: string;
 }
 
 export interface GetMessagePayload {
@@ -128,6 +130,7 @@ interface ClientToServerEvents {
   audio_call_denied: (arg: unknown) => void;
   audio_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
   user_is_busy_audio_call: (arg: unknown) => void;
+  audio_call_end: (arg: FriendRequestPayload) => void;
 
   //video call
   start_video_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
