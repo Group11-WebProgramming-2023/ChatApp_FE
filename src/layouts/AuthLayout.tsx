@@ -1,4 +1,11 @@
-import { BackgroundImage, Box, Center, Grid, MediaQuery } from "@mantine/core";
+import {
+  BackgroundImage,
+  Box,
+  Center,
+  Grid,
+  MediaQuery,
+  Stack,
+} from "@mantine/core";
 import { Navigate, Outlet } from "react-router-dom";
 import bg from "@/assets/img/bg.gif";
 
@@ -24,9 +31,11 @@ const AuthLayout = () => {
         </Grid.Col>
       </MediaQuery>
       <Grid.Col xs={12} md={5}>
-        <Center>
-          <Outlet />
-        </Center>
+        <Stack h={"100vh"} align="center" justify="center">
+          <Center>
+            <Outlet />
+          </Center>
+        </Stack>
       </Grid.Col>
     </Grid>
   );
