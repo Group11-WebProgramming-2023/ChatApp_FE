@@ -10,6 +10,7 @@ import {
   Grid,
   Group,
   Modal,
+  PinInput,
   Stack,
   Text,
   TextInput,
@@ -120,13 +121,16 @@ export const Register = () => {
         </Card>
       </Center>
       <Modal opened={opened} onClose={close} centered title="Input OTP">
-        <OtpInput
+        {/* <OtpInput
           value={otp}
           onChange={setOtp}
           numInputs={6}
           renderSeparator={<span>-</span>}
           renderInput={(props) => <input {...props} />}
-        />
+        /> */}
+        <Center mb={"lg"}>
+          <PinInput value={otp} onChange={setOtp} length={6} />
+        </Center>
         <Group position="center">
           <Button onClick={() => handleConfirmOTP(otp, form.values.email)}>
             Confirm
