@@ -79,15 +79,15 @@ export const VideoCallModal = ({ close }: Props) => {
 
   useEffect(() => {
     // Decline call automatically after 30 sec if not picked
-    const timer = setTimeout(() => {
-      socket.emit(
-        SocketEvents.VIDEO_CALL_NOT_PICKED,
-        { to: streamID, from: userID },
-        () => {
-          console.log("");
-        }
-      );
-    }, 30 * 1000);
+    // const timer = setTimeout(() => {
+    //   socket.emit(
+    //     SocketEvents.VIDEO_CALL_NOT_PICKED,
+    //     { to: streamID, from: userID },
+    //     () => {
+    //       console.log("");
+    //     }
+    //   );
+    // }, 30 * 1000);
 
     socket.on(SocketEvents.VIDEO_CALL_MISSED, () => {
       // Abort call
@@ -96,7 +96,7 @@ export const VideoCallModal = ({ close }: Props) => {
 
     socket.on(SocketEvents.VIDEO_CALL_ACCEPTED, () => {
       // clear timeout for VIDEO_CALL_NOT_PICKED
-      clearTimeout(timer);
+      // clearTimeout(timer);
     });
 
     if (!incoming) {
