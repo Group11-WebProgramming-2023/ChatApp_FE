@@ -3,6 +3,7 @@ import { BaseModel } from ".";
 export interface IMessage extends BaseModel {
   from: string;
   to: string;
+  avatar?: string;
   text: string;
   type: IMessageType;
   conversation_id?: string;

@@ -92,6 +92,7 @@ export const Call = () => {
       <Modal
         opened={opened}
         onClose={close}
+        centered
         title={<Text fw={500}>Your friends</Text>}
       >
         {allFriends.map((friend) => (

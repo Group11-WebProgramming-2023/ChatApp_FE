@@ -2,11 +2,20 @@ import { CONFIG } from "@/configs";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { AudioCallActionType } from "@/redux/reducer/audioCall/audioCall.type";
+import { UserAction } from "@/redux/reducer/user/user.action";
+import { IUser } from "@/types/models/IUser";
 import { SocketEvents, socket } from "@/utils/socket";
-import { Avatar, Button, Group, Stack } from "@mantine/core";
-import { IconPhoneOff } from "@tabler/icons-react";
+import {
+  Avatar,
+  Button,
+  Group,
+  Stack,
+  Text,
+  useMantineTheme,
+} from "@mantine/core";
+import { IconPhoneCalling, IconPhoneOff } from "@tabler/icons-react";
 import axios from "axios";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ZegoExpressEngine } from "zego-express-engine-webrtc";
 
 interface Props {
@@ -16,6 +25,25 @@ interface Props {
 export const AudioCallModal = ({ close }: Props) => {
   const audioStreamRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
+
+  const [profile, setProfile] = useState<IUser>();
+  useEffect(() => {
+    dispatch(
+      UserAction.getProfile({
+        onSuccess: (data: IUser) => setProfile(data),
+      })
+    );
+  }, [dispatch]);
+
+  const { current_conversation } = useAppSelector(
+    (state: RootState) => state.conversation.direct_chat
+  );
+
+  const currentUserID = localStorage.getItem("userId");
+  const user: any = current_conversation?.participants.filter(
+    (el) => el._id !== currentUserID
+  )[0];
+
   //* Use params from call_details if available => like in case of receiver's end
 
   const [call_details] = useAppSelector(
@@ -247,15 +275,21 @@ export const AudioCallModal = ({ close }: Props) => {
     fetchToken();
   }, []);
 
+  const theme = useMantineTheme();
+
   return (
     <Stack>
-      <Group>
+      <Group position="center" spacing={"lg"} align="center" mb={"lg"}>
         <Stack>
-          <Avatar />
+          <Avatar src={profile?.avatar} size={"lg"} radius={"xl"} />
           <audio id="local-audio" controls={false} />
         </Stack>
         <Stack>
-          <Avatar />
+          <IconPhoneCalling color={theme.colors.blue[5]} />
+          {/* <Text color="dimmed">Calling</Text> */}
+        </Stack>
+        <Stack>
+          <Avatar src={user.avatar} size={"lg"} radius={"xl"} />
           <audio id="remote-audio" controls={false} />
         </Stack>
       </Group>

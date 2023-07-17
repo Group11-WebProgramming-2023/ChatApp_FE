@@ -63,7 +63,7 @@ export const Header = () => {
             onClick={handleBack}
           />
         )}
-        <Avatar src={""} radius={"xl"} size={"lg"} />
+        <Avatar src={user.avatar} radius={"xl"} size={"md"} mr={"xs"} />
         <Stack spacing={0}>
           <Text fw={600} fz={"sm"}>
             {`${user?.firstName} 
