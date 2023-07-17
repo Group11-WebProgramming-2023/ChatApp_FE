@@ -279,7 +279,7 @@ export const AudioCallModal = ({ close }: Props) => {
     <Stack>
       <Group position="center" spacing={"lg"} align="center" mb={"lg"}>
         <Stack>
-          <Avatar src={profile?.avatar} size={"lg"} radius={"xl"} />
+          <Avatar src={profile?.avatar || ""} size={"lg"} radius={"xl"} />
           <audio id="local-audio" controls={false} />
         </Stack>
         <Stack>
@@ -287,7 +287,7 @@ export const AudioCallModal = ({ close }: Props) => {
           {/* <Text color="dimmed">Calling</Text> */}
         </Stack>
         <Stack>
-          <Avatar src={user.avatar} size={"lg"} radius={"xl"} />
+          <Avatar src={user.avatar || ""} size={"lg"} radius={"xl"} />
           <audio id="remote-audio" controls={false} />
         </Stack>
       </Group>

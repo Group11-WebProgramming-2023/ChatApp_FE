@@ -54,7 +54,7 @@ export const AllUser = () => {
                       <Avatar
                         radius={"xl"}
                         size={matches ? "lg" : "md"}
-                        src={user.avatar}
+                        src={user.avatar || ""}
                       />
                     </Col>
                     <Col offset={1} span={6}>

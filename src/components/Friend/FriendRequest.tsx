@@ -44,7 +44,7 @@ export const FriendRequest = () => {
                   <Grid align="center" px={"xs"} w={"100%"}>
                     <Col span={2}>
                       <Avatar
-                        src={request.sender.avatar}
+                        src={request.sender.avatar || ""}
                         radius={"xl"}
                         size={"md"}
                       />

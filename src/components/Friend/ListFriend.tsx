@@ -44,7 +44,11 @@ export const ListFriend = () => {
                 <Card radius={"md"} withBorder>
                   <Grid align="center" px={"xs"} w={"100%"}>
                     <Col span={2}>
-                      <Avatar radius={"xl"} src={friend.avatar} size={"md"} />
+                      <Avatar
+                        radius={"xl"}
+                        src={friend.avatar || ""}
+                        size={"md"}
+                      />
                     </Col>
                     <Col offset={1} span={8}>
                       <Text fw={500}>

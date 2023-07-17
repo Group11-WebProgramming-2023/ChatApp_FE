@@ -112,7 +112,7 @@ export const Profile = () => {
                   size={250}
                   color="blue"
                   radius="xl"
-                  src={form.values.avatar || profile?.avatar}
+                  src={form.values.avatar || profile?.avatar || ""}
                 />
                 <IconEdit
                   size={"1.8rem"}
