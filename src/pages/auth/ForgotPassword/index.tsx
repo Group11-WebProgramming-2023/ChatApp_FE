@@ -27,7 +27,6 @@ export const ForgotPassword = () => {
 
   const handleForgotPassword = (values: ForgotPasswordPayload) => {
     forgotPwd(values);
-    navigate(ROUTER.RESET_PWD);
   };
 
   return (
