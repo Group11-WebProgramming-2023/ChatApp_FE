@@ -16,7 +16,12 @@ export const AudioCallNotification = ({ close }: Props) => {
   );
 
   const handleAcceptCall = () => {
-    socket.emit(SocketEvents.AUDIO_CALL_ACCEPTED, { ...call_details });
+    socket.emit(SocketEvents.AUDIO_CALL_ACCEPTED, {
+      from: call_details.streamID,
+      to: call_details.userID,
+      roomID: call_details.roomID,
+    });
+
     dispatch({
       type: AudioCallActionType.UPDATE_AUDIO_CALL_MODAL,
       payload: {

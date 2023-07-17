@@ -16,7 +16,11 @@ export const VideoCallNotification = ({ close }: Props) => {
   );
 
   const handleAcceptCall = () => {
-    socket.emit(SocketEvents.VIDEO_CALL_ACCEPTED, { ...call_details });
+    socket.emit(SocketEvents.VIDEO_CALL_ACCEPTED, {
+      from: call_details.streamID,
+      to: call_details.userID,
+      roomID: call_details.roomID,
+    });
     dispatch({
       type: VideoCallActionType.UPDATE_VIDEO_CALL_MODAL,
       payload: {

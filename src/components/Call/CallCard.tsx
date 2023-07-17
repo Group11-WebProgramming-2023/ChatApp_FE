@@ -23,7 +23,6 @@ export const CallCard = ({ user, close }: Props) => {
   const theme = useMantineTheme();
 
   const handleAudioCall = () => {
-    console.log(user._id);
     if (user._id) {
       dispatch(AudioCallAction.startAudioCall({ id: user._id }));
       close();
@@ -31,7 +30,6 @@ export const CallCard = ({ user, close }: Props) => {
   };
 
   const handleVideoCall = () => {
-    console.log(user._id);
     if (user._id) {
       dispatch(VideoCallAction.startVideoCall({ id: user._id }));
       close();

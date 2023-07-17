@@ -470,6 +470,7 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
       onClick={handleSelectConversation}
       bg={isSelectedConversation() ? "blue" : "white"}
       c={isSelectedConversation() ? "white" : ""}
+      style={{cursor: "pointer"}}
     >
       <Grid align="center">
         <Col span={2}>
