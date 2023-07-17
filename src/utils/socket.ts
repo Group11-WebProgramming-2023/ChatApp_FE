@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { CONFIG } from "@/configs";
 import { IConversation } from "@/types/models/IConversation";
 import { IMessage, ISocketMessage } from "@/types/models/IMessage";

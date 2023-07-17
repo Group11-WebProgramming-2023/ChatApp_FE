@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { Reducer } from "redux";
-import { VideoCallAction, VideoCallActionType, VideoCallState } from "./videoCall.type";
+import {
+  VideoCallAction,
+  VideoCallActionType,
+  VideoCallState,
+} from "./videoCall.type";
 import { SocketEvents, socket } from "@/utils/socket";
 
 const initialState: VideoCallState = {

@@ -1,25 +1,23 @@
-import CustomLoader from "@/components/custom/CustomLoader";
+import { useAppDispatch } from "@/hooks/redux";
 import AuthLayout from "@/layouts/AuthLayout";
 import ProtectedLayout from "@/layouts/ProtectedLayout";
 import Page404 from "@/pages/Page404";
+import { ForgotPassword } from "@/pages/auth/ForgotPassword";
 import { Login } from "@/pages/auth/Login/Login";
 import { Register } from "@/pages/auth/Register";
+import { ResetPwd } from "@/pages/auth/ResetPassword";
 import { Call } from "@/pages/protected/Call";
 import { Chats } from "@/pages/protected/Chats";
 import { Conversation } from "@/pages/protected/Conversation";
 import { Friend } from "@/pages/protected/Friend";
 import { GeneralApp } from "@/pages/protected/GeneralApp";
-import { Group } from "@mantine/core";
-import { Suspense, useEffect } from "react";
-import { Navigate, useNavigate, useRoutes } from "react-router-dom";
-import { DEFAULT_PATH, ROUTER } from "./path";
 import { Profile } from "@/pages/protected/Profile";
-import { SocketEvents, connectSocket, socket } from "@/utils/socket";
-import { NotiType, renderNotification } from "@/utils/notifications";
-import { useAppDispatch } from "@/hooks/redux";
 import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
-import { ForgotPassword } from "@/pages/auth/ForgotPassword";
-import { ResetPwd } from "@/pages/auth/ResetPassword";
+import { socket } from "@/utils/socket";
+import { Group } from "@mantine/core";
+import { useEffect } from "react";
+import { Navigate, useRoutes } from "react-router-dom";
+import { DEFAULT_PATH, ROUTER } from "./path";
 
 // const Loadable = (Component) => (props) => {
 //   return (
@@ -32,7 +30,7 @@ import { ResetPwd } from "@/pages/auth/ResetPassword";
 export default function Router() {
   const userId = localStorage.getItem("userId");
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (userId && socket) {

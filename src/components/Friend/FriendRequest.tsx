@@ -14,11 +14,7 @@ import {
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import {
-  IconAccessPoint,
-  IconHourglassEmpty,
-  IconUserOff,
-} from "@tabler/icons-react";
+import { IconHourglassEmpty } from "@tabler/icons-react";
 import { useLayoutEffect } from "react";
 
 export const FriendRequest = () => {

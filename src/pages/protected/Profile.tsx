@@ -20,13 +20,14 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { IconEdit } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export const Profile = () => {
   const theme = useMantineTheme();
   const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
 
   const dispatch = useAppDispatch();
+
   const [profile, setProfile] = useState<IUser>();
   const [_isEditing, setIsEditing] = useState(false);
 
@@ -37,7 +38,7 @@ export const Profile = () => {
     },
   });
 
-  useEffect(() => {
+  const getProfile = useCallback(() => {
     dispatch(
       UserAction.getProfile({
         onSuccess: (data: IUser) => {
@@ -50,7 +51,12 @@ export const Profile = () => {
         },
       })
     );
-  }, [dispatch]);
+  }, [dispatch, form]);
+
+  useEffect(() => {
+    getProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [opened, { close, open }] = useDisclosure();
 
@@ -106,7 +112,7 @@ export const Profile = () => {
                   size={250}
                   color="blue"
                   radius="xl"
-                  src={form.values.avatar}
+                  src={form.values.avatar || profile?.avatar}
                 />
                 <IconEdit
                   size={"1.8rem"}

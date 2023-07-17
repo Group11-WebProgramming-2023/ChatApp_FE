@@ -37,7 +37,6 @@ import {
   IconLogout,
   IconMessage,
   IconPhone,
-  IconUsersGroup,
 } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
@@ -156,6 +155,7 @@ const ProtectedLayout = () => {
     }
     if (socket) {
       socket.on(SocketEvents.NEW_FRIEND_REQUEST, (data) => {
+        console.log(data);
         renderNotification("You have new friend request", NotiType.SUCCESS);
       });
 

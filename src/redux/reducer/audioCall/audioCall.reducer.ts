@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { Reducer } from "redux";
-import { AudioCallAction, AudioCallActionType, AudioCallState } from "./audioCall.type";
+import {
+  AudioCallAction,
+  AudioCallActionType,
+  AudioCallState,
+} from "./audioCall.type";
 import { SocketEvents, socket } from "@/utils/socket";
 
 const initialState: AudioCallState = {

@@ -1,7 +1,4 @@
-import {
-  ForgotPasswordPayload,
-  ResetPasswordPayload,
-} from "@/configs/api/payload";
+import { ResetPasswordPayload } from "@/configs/api/payload";
 import { useAuthContext } from "@/hooks/context";
 import { ROUTER } from "@/routes/path";
 import {
@@ -12,11 +9,10 @@ import {
   PasswordInput,
   Stack,
   Text,
-  TextInput,
 } from "@mantine/core";
-import { isNotEmpty, useForm } from "@mantine/form";
+import { useForm } from "@mantine/form";
 import { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const ResetPwd = () => {
   const navigate = useNavigate();

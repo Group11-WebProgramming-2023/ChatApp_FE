@@ -1,4 +1,3 @@
-import { API_URLS } from "@/configs/api/endpoint";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { UserAction } from "@/redux/reducer/user/user.action";
@@ -9,25 +8,22 @@ import {
   Center,
   Col,
   Grid,
-  Group,
-  Input,
   Stack,
   Text,
   useMantineTheme,
 } from "@mantine/core";
-import { useMediaQuery } from "@mantine/hooks";
 import { IconHourglassEmpty, IconMessage } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 export const ListFriend = () => {
   const dispatch = useAppDispatch();
   const theme = useMantineTheme();
-  const matches = useMediaQuery(`(min-width: ${theme.breakpoints.lg})`);
+
   const { allFriends } = useAppSelector((state: RootState) => state.user);
 
   useEffect(() => {
     dispatch(UserAction.getAllFriends());
-  }, []);
+  }, [dispatch]);
 
   const handleStartConversation = (toId: string | undefined) => {
     if (toId) {
@@ -73,7 +69,7 @@ export const ListFriend = () => {
         <Stack align="center" py={"xl"}>
           <IconHourglassEmpty size={"5rem"} stroke={1} />
           <Text fw={500} fz={"lg"} color="dimmed">
-            You have no friends. Explore and start chatting 
+            You have no friends. Explore and start chatting
           </Text>
         </Stack>
       )}

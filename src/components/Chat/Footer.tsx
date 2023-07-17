@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
+import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 import { linkify } from "@/utils/helpers";
 import { socket } from "@/utils/socket";
 import {
@@ -7,14 +8,12 @@ import {
   Col,
   Grid,
   Group,
-  Input,
   TextInput,
   useMantineTheme,
 } from "@mantine/core";
 import { IconLink, IconMoodSmile, IconSend } from "@tabler/icons-react";
 import { useState } from "react";
 import { containsUrl } from "../../utils/helpers";
-import { ConversationActionType } from "@/redux/reducer/conversation/conversation.type";
 
 export const Footer = () => {
   const userId = localStorage.getItem("userId");

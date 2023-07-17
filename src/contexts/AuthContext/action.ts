@@ -1,6 +1,3 @@
-import { IUser } from "@/types/models/IUser";
-import { Authorities } from ".";
-
 export enum AuthAction {
   AUTH_ACTION_PENDING = "AUTH_ACTION_PENDING",
   AUTH_ACTION_FAILURE = "AUTH_ACTION_FAILURE",

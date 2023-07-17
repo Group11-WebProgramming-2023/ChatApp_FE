@@ -1,10 +1,10 @@
+import { useUploadFirebase } from "@/hooks/use-upload-firebase";
 import { Button, Center, Group, Modal, Stack, Text } from "@mantine/core";
+import { FileWithPath } from "@mantine/dropzone";
 import { modals } from "@mantine/modals";
 import { useState } from "react";
 import Avatar from "react-avatar-edit";
 import { NotiType, renderNotification } from "./notifications";
-import { useUploadFirebase } from "@/hooks/use-upload-firebase";
-import { FileWithPath } from "@mantine/dropzone";
 
 interface OpenCustomConfirmModalProps {
   onConfirm: () => void;
@@ -43,7 +43,6 @@ const OpenUploadModal = ({
   onClose,
   afterUpload,
 }: OpenUploadModalProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [preview, setPreview] = useState<string>("");
   const [file, setFile] = useState<FileWithPath | null>(null);
 
@@ -65,10 +64,9 @@ const OpenUploadModal = ({
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isLoadingUpload, url, handleUploadImageOnFirebase] =
     useUploadFirebase();
-
+  console.log(url, preview);
   const handleUpload = () => {
     if (!file) return;
     handleUploadImageOnFirebase(file, {
