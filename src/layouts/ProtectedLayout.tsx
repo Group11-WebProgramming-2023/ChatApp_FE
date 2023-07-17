@@ -101,13 +101,13 @@ const getPath = (index: number) => {
   switch (index) {
     case 0:
       return ROUTER.APP;
+    // case 1:
+    //   return ROUTER.GROUP;
     case 1:
-      return ROUTER.GROUP;
-    case 2:
       return ROUTER.CALL;
-    case 3:
+    case 2:
       return ROUTER.FRIENDS;
-    case 4:
+    case 3:
       return ROUTER.PROFILE;
     default:
       return ROUTER.APP;
@@ -125,7 +125,7 @@ const ProtectedLayout = () => {
 
   const data = [
     { icon: IconMessage, label: "Message" },
-    { icon: IconUsersGroup, label: "Group" },
+    // { icon: IconUsersGroup, label: "Group" },
     { icon: IconPhone, label: "Calls" },
     { icon: IconFriends, label: "Friends" },
     { icon: IconInfoCircle, label: "Profile" },
@@ -239,9 +239,16 @@ const ProtectedLayout = () => {
 
   const FooterComponet = (
     <Footer height={70} p="xs">
-      <Group>
+      <Group align="center" position="center">
         {links}
-        <IconLogout size="1.2rem" stroke={1.5} />
+        <IconLogout
+          size="1.2rem"
+          stroke={1.5}
+          onClick={() => {
+            logout();
+            navigate(ROUTER.LOGIN);
+          }}
+        />
       </Group>
     </Footer>
   );

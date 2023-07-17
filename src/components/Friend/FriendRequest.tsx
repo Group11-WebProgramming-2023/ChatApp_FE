@@ -46,7 +46,11 @@ export const FriendRequest = () => {
               <Card radius={"md"} withBorder>
                 <Grid align="center" px={"lg"}>
                   <Col span={2}>
-                    <Avatar radius={"sm"} size={"lg"} />
+                    <Avatar
+                      src={request.sender.avatar}
+                      radius={"sm"}
+                      size={"lg"}
+                    />
                   </Col>
                   <Col span={9}>
                     <Text fw={500}>

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux";
 import { RootState } from "@/redux/reducer";
 import { VideoCallActionType } from "@/redux/reducer/videoCall/videoCall.type";
 import { SocketEvents, socket } from "@/utils/socket";
-import { Avatar, Button, Group, Stack } from "@mantine/core";
+import { Avatar, Button, Center, Group, Stack } from "@mantine/core";
 import { IconPhoneOff } from "@tabler/icons-react";
 import axios from "axios";
 import { useEffect, useRef } from "react";
@@ -298,25 +298,27 @@ export const VideoCallModal = ({ close }: Props) => {
   }, []);
 
   return (
-    <Stack>
-      <Group>
-        <Stack>
-          <Avatar />
-          <video
-            style={{ height: 240, width: 320 }}
-            id="local-video"
-            controls={false}
-          />
-          <audio id="local-audio" controls={false} />
+    <Stack align="center" justify="center">
+      <Group align="center" position="center">
+        <Stack align="center" justify="center">
+          <Center>
+            <video
+              style={{ height: 240, width: 320 }}
+              id="local-video"
+              controls={false}
+            />
+            <audio id="local-audio" controls={false} />
+          </Center>
         </Stack>
-        <Stack>
-          <Avatar />
-          <video
-            style={{ height: 240, width: 320 }}
-            id="remote-video"
-            controls={false}
-          />
-          <audio id="remote-audio" controls={false} />
+        <Stack align="center" justify="center">
+          <Center>
+            <video
+              style={{ height: 240, width: 320 }}
+              id="remote-video"
+              controls={false}
+            />
+            <audio id="remote-audio" controls={false} />
+          </Center>
         </Stack>
       </Group>
       <Button

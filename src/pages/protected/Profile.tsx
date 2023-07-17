@@ -55,13 +55,13 @@ export const Profile = () => {
   const [opened, { close, open }] = useDisclosure();
 
   const afterUpload = (url: string) => {
+    form.values.avatar = url;
     dispatch(
       UserAction.updateProfile(
         { ...form.values, avatar: url },
         {
           onSuccess: () => {
             form.values.avatar = url;
-
             dispatch(UserAction.getProfile());
           },
           onError: () => form.reset(),
@@ -96,39 +96,37 @@ export const Profile = () => {
       <Text fw={500} size={"lg"}>
         Profile
       </Text>
+
       <Grid>
-        <Col sm={12} md={6}>
-          <Center>
-            <Box sx={{ position: "relative" }}>
-              <Avatar
-                size={250}
-                w={"100%"}
-                color="blue"
-                radius="xl"
-                src={form.values.avatar}
-              />
-              <IconEdit
-                size={"1.8rem"}
-                style={{
-                  position: "absolute",
-                  bottom: -5,
-                  right: -5,
-                  background: "white",
-                  borderRadius: "50%",
-                  border: "2px solid blue",
-                  padding: "3px",
-                }}
-                color="blue"
-                cursor={"pointer"}
-                onClick={() => {
-                  open();
-                }}
-              />
-            </Box>
-          </Center>
-        </Col>
-        <Col sm={12} md={6}>
+        <Col sm={12} md={6} offsetMd={3}>
           <Stack>
+            <Center>
+              <Box sx={{ position: "relative" }}>
+                <Avatar
+                  size={250}
+                  color="blue"
+                  radius="xl"
+                  src={form.values.avatar}
+                />
+                <IconEdit
+                  size={"1.8rem"}
+                  style={{
+                    position: "absolute",
+                    bottom: -5,
+                    right: -5,
+                    background: "white",
+                    borderRadius: "50%",
+                    border: "2px solid blue",
+                    padding: "3px",
+                  }}
+                  color="blue"
+                  cursor={"pointer"}
+                  onClick={() => {
+                    open();
+                  }}
+                />
+              </Box>
+            </Center>
             <form>
               <TextInput
                 label="First name"
@@ -163,7 +161,6 @@ export const Profile = () => {
           </Stack>
         </Col>
       </Grid>
-
       <Modals.OpenUploadModal
         title="Update avatar"
         opened={opened}

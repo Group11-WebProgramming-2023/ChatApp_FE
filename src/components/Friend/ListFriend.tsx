@@ -46,10 +46,10 @@ export const ListFriend = () => {
         </Group> */}
         <Grid gutter={"md"}>
           {allFriends.map((friend) => (
-            <Col xs={12} md={6} key={friend._id}>
+            <Col sm={12} md={6} key={friend._id}>
               <Card radius={"md"} withBorder>
                 <Grid align="center" px={"xs"}>
-                  <Col sm={1} md={2}>
+                  <Col sm={4} md={2} bg={"red"}>
                     <Avatar radius={"sm"} size={"lg"} />
                   </Col>
                   <Col sm={8} md={8}>

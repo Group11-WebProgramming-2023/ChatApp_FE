@@ -58,26 +58,32 @@ export const Footer = () => {
       px={"md"}
       spacing={0}
     >
-      <TextInput
-        color={theme.colors.blue[5]}
-        rightSection={
-          <IconMoodSmile color={theme.colors.blue[5]} size={"1rem"} />
-        }
-        icon={<IconLink color={theme.colors.blue[5]} size={"1rem"} />}
-        radius={"lg"}
-        value={_message}
-        placeholder="Write a message"
-        onChange={(e) => setMessage(e.currentTarget.value)}
-      />
-
-      <Button
-        color="blue.5"
-        radius={"md"}
-        onClick={() => handleSendMessage()}
-        disabled={_message.length === 0 ? true : false}
-      >
-        <IconSend size={"0.8rem"} />
-      </Button>
+      <Grid w={"100%"}>
+        <Col span={10}>
+          <TextInput
+            color={theme.colors.blue[5]}
+            rightSection={
+              <IconMoodSmile color={theme.colors.blue[5]} size={"1rem"} />
+            }
+            icon={<IconLink color={theme.colors.blue[5]} size={"1rem"} />}
+            radius={"lg"}
+            width={"100%"}
+            value={_message}
+            placeholder="Write a message"
+            onChange={(e) => setMessage(e.currentTarget.value)}
+          />
+        </Col>
+        <Col span={1}>
+          <Button
+            color="blue.5"
+            radius={"md"}
+            onClick={() => handleSendMessage()}
+            disabled={_message.length === 0 ? true : false}
+          >
+            <IconSend size={"1rem"} />
+          </Button>
+        </Col>
+      </Grid>
     </Group>
   );
 };

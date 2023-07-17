@@ -470,11 +470,17 @@ const ConversationCard = ({ conversation }: ChatCardProps) => {
       onClick={handleSelectConversation}
       bg={isSelectedConversation() ? "blue" : "white"}
       c={isSelectedConversation() ? "white" : ""}
-      style={{cursor: "pointer"}}
+      style={{ cursor: "pointer" }}
     >
       <Grid align="center">
         <Col span={2}>
-          <Avatar src={""} radius={"xl"} />
+          <Avatar
+            src={
+              conversation.participants.filter((item) => item._id !== userId)[0]
+                ?.avatar
+            }
+            radius={"xl"}
+          />
         </Col>
         <Col span={7} pl={"sm"}>
           <Stack spacing={0}>

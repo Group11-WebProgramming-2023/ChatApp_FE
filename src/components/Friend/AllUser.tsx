@@ -44,16 +44,17 @@ export const AllUser = () => {
   return (
     <Center>
       <Stack p={"md"} w={"100%"}>
-        {/* <Group>
-          <Input placeholder="Search" />
-        </Group> */}
         <Grid gutter={"md"}>
           {allUsers.map((user) => (
             <Col xs={12} md={6} key={user._id}>
               <Card radius={"md"} withBorder>
                 <Grid align="center">
                   <Col span={2}>
-                    <Avatar radius={"sm"} size={matches ? "lg" : "md"} />
+                    <Avatar
+                      radius={"sm"}
+                      size={matches ? "lg" : "md"}
+                      src={user.avatar}
+                    />
                   </Col>
                   <Col span={6}>
                     <Text fw={500}>

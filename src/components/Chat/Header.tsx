@@ -31,7 +31,6 @@ export const Header = () => {
   };
 
   const handleAudioCall = () => {
-    console.log(user._id);
     if (user._id) {
       dispatch(AudioCallAction.startAudioCall({ id: user._id }));
       close();
@@ -39,7 +38,6 @@ export const Header = () => {
   };
 
   const handleVideoCall = () => {
-    console.log(user._id);
     if (user._id) {
       dispatch(VideoCallAction.startVideoCall({ id: user._id }));
       close();
@@ -71,9 +69,9 @@ export const Header = () => {
             {`${user?.firstName} 
               ${user?.lastName}`}
           </Text>
-          <Text fz={"xs"} color="dimmed">
+          {/* <Text fz={"xs"} color="dimmed">
             Online
-          </Text>
+          </Text> */}
         </Stack>
       </Group>
       <Group spacing={"xl"}>
