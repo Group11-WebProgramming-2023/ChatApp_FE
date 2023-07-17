@@ -15,7 +15,7 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { IconUserPlus } from "@tabler/icons-react";
+import { IconHourglassEmpty, IconUserPlus } from "@tabler/icons-react";
 import { useEffect } from "react";
 
 export const AllUser = () => {
@@ -43,39 +43,48 @@ export const AllUser = () => {
 
   return (
     <Center>
-      <Stack p={"md"} w={"100%"}>
-        <Grid gutter={"md"}>
-          {allUsers.map((user) => (
-            <Col xs={12} md={6} key={user._id}>
-              <Card radius={"md"} withBorder>
-                <Grid align="center">
-                  <Col span={2}>
-                    <Avatar
-                      radius={"sm"}
-                      size={matches ? "lg" : "md"}
-                      src={user.avatar}
-                    />
-                  </Col>
-                  <Col span={6}>
-                    <Text fw={500}>
-                      {user.firstName} {user.lastName}
-                    </Text>
-                  </Col>
-                  <Col span={3}>
-                    <Button
-                      rightIcon={<IconUserPlus size={"1rem"} />}
-                      onClick={() => handleAddFriend(user._id)}
-                      size={matches ? "md" : "xs"}
-                    >
-                      Add
-                    </Button>
-                  </Col>
-                </Grid>
-              </Card>
-            </Col>
-          ))}
-        </Grid>
-      </Stack>
+      {allUsers.length > 0 ? (
+        <Stack p={"md"} w={"100%"}>
+          <Grid gutter={"md"}>
+            {allUsers.map((user) => (
+              <Col xs={12} md={6} key={user._id}>
+                <Card radius={"md"} withBorder>
+                  <Grid align="center" px={"xs"} w={"100%"}>
+                    <Col span={2}>
+                      <Avatar
+                        radius={"xl"}
+                        size={matches ? "lg" : "md"}
+                        src={user.avatar}
+                      />
+                    </Col>
+                    <Col offset={1} span={6}>
+                      <Text fw={500}>
+                        {user.firstName} {user.lastName}
+                      </Text>
+                    </Col>
+                    <Col span={3}>
+                      <Button
+                        rightIcon={<IconUserPlus size={"1rem"} />}
+                        onClick={() => handleAddFriend(user._id)}
+                        size={matches ? "md" : "xs"}
+                      >
+                        Add
+                      </Button>
+                    </Col>
+                  </Grid>
+                </Card>
+              </Col>
+            ))}
+          </Grid>
+        </Stack>
+      ) : (
+        <Stack align="center" py={"xl"}>
+          <IconHourglassEmpty size={"5rem"} stroke={1} />
+          <Text fw={500} fz={"lg"} color="dimmed">
+            You have added friend to all user
+          </Text>
+        </Stack>
+      )}
     </Center>
   );
 };

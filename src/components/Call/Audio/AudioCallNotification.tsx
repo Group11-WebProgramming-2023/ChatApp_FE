@@ -44,7 +44,7 @@ export const AudioCallNotification = ({ close }: Props) => {
         <Avatar size={"lg"} radius={"xl"} />
       </Center>
       <Text fw={500} align="center">
-        You have a call coming
+        You have incoming call
       </Text>
 
       <Group position={"center"}>

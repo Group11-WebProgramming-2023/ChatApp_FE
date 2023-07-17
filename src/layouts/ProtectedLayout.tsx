@@ -179,7 +179,6 @@ const ProtectedLayout = () => {
       });
 
       socket.on(SocketEvents.AUDIO_CALL_NOTIFICATION, (data) => {
-        console.log(data);
         dispatch({
           type: AudioCallActionType.PUSH_TO_AUDIO_QUEUE,
           payload: { call: data, incoming: true },
@@ -187,7 +186,6 @@ const ProtectedLayout = () => {
       });
 
       socket.on(SocketEvents.VIDEO_CALL_NOTIFICATION, (data) => {
-        console.log(data);
         dispatch({
           type: VideoCallActionType.PUSH_TO_VIDEO_QUEUE,
           payload: { call: data, incoming: true },
@@ -302,6 +300,7 @@ const ProtectedLayout = () => {
 
       {/* audio modal */}
       <Modal
+        withCloseButton={false}
         centered
         opened={open_audio_notification_modal}
         onClose={() =>
@@ -316,6 +315,7 @@ const ProtectedLayout = () => {
       </Modal>
 
       <Modal
+        withCloseButton={false}
         centered
         opened={open_audio_modal}
         onClose={() =>
@@ -337,6 +337,7 @@ const ProtectedLayout = () => {
 
       {/* video modal */}
       <Modal
+        withCloseButton={false}
         centered
         opened={open_video_notification_modal}
         onClose={() =>
@@ -351,6 +352,7 @@ const ProtectedLayout = () => {
       </Modal>
 
       <Modal
+        withCloseButton={false}
         centered
         opened={open_video_modal}
         onClose={() =>

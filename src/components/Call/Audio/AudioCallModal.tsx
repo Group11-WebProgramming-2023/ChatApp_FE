@@ -147,7 +147,7 @@ export const AudioCallModal = ({ close }: Props) => {
           },
         }
       );
-      console.log(response, "TOKEN RESPONSE");
+
       zego_token = response.data.token;
 
       // Step 2 => Check browser compatibility
@@ -164,7 +164,6 @@ export const AudioCallModal = ({ close }: Props) => {
           //   screenSharing: true,
           //   errInfo: {}
           // }
-          console.log(result);
 
           const { webRTC, microphone } = result;
 
@@ -176,8 +175,6 @@ export const AudioCallModal = ({ close }: Props) => {
               { userUpdate: true }
             )
               .then(async (result) => {
-                console.log(result);
-
                 // After calling the CreateStream method, you need to wait for the ZEGOCLOUD server to return the local stream object before any further operation.
                 const localStream = await zg.createStream({
                   camera: { audio: true, video: false },
@@ -196,7 +193,6 @@ export const AudioCallModal = ({ close }: Props) => {
                 zg.on("publisherStateUpdate", (result) => {
                   // Callback for updates on stream publishing status.
                   // ...
-                  console.log(result);
                   // * we can use this info to show connection status
                 });
 

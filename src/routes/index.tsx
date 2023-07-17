@@ -37,7 +37,6 @@ export default function Router() {
   useEffect(() => {
     if (userId && socket) {
       socket.emit("get_direct_conversations", { user_id: userId }, (data) => {
-        console.log(data);
         dispatch({
           type: ConversationActionType.FETCH_DIRECT_CONVERSATIONS,
           payload: data,

@@ -43,7 +43,7 @@ export const VideoCallNotification = ({ close }: Props) => {
         <Avatar size={"lg"} radius={"xl"} />
       </Center>
       <Text fw={500} align="center">
-        Khue Dinh calling you ...
+        You have incoming call
       </Text>
 
       <Group position={"center"}>

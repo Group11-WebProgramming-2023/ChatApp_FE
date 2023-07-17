@@ -126,7 +126,6 @@ export const VideoCallModal = ({ close }: Props) => {
           },
         }
       );
-      console.log(response, "TOKEN RESPONSE");
       zego_token = response.data.token;
 
       // Step 2 => Check browser compatibility
