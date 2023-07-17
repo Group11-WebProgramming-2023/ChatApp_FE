@@ -24,6 +24,11 @@ export type VerifyOTPPayload = {
   otp: string;
 };
 
+export type UpdateProfilePayload = {
+  firstName: string;
+  lastName: string;
+  avatar: string;
+};
 export type StartCallPayload = {
   id: string;
 };
@@ -35,4 +40,5 @@ export type ApiPayload =
   | VerifyOTPPayload
   | string
   | StartCallPayload
-  | ResetPasswordPayload;
+  | ResetPasswordPayload
+  | UpdateProfilePayload;

@@ -1,10 +1,10 @@
-import { Button, Center, Group, Modal, Stack, Text } from '@mantine/core';
-import { modals } from '@mantine/modals';
-import { useState } from 'react';
-import Avatar from 'react-avatar-edit';
-import { NotiType, renderNotification } from './notifications';
-import { useUploadFirebase } from '@/hooks/use-upload-firebase';
-import { FileWithPath } from '@mantine/dropzone';
+import { Button, Center, Group, Modal, Stack, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
+import { useState } from "react";
+import Avatar from "react-avatar-edit";
+import { NotiType, renderNotification } from "./notifications";
+import { useUploadFirebase } from "@/hooks/use-upload-firebase";
+import { FileWithPath } from "@mantine/dropzone";
 
 interface OpenCustomConfirmModalProps {
   onConfirm: () => void;
@@ -17,16 +17,16 @@ const openCustomConfirmModal = ({
   onConfirm,
   onCancel,
   childrenText,
-  title
+  title,
 }: OpenCustomConfirmModalProps) => {
   modals.openConfirmModal({
     title,
     centered: true,
-    children: <Text size={'sm'}>{childrenText}</Text>,
-    confirmProps: { color: 'red' },
-    labels: { confirm: 'Đồng ý', cancel: 'Huỷ bỏ' },
+    children: <Text size={"sm"}>{childrenText}</Text>,
+    confirmProps: { color: "red" },
+    labels: { confirm: "Đồng ý", cancel: "Huỷ bỏ" },
     onCancel,
-    onConfirm
+    onConfirm,
   });
 };
 
@@ -41,14 +41,14 @@ const OpenUploadModal = ({
   title,
   opened,
   onClose,
-  afterUpload
+  afterUpload,
 }: OpenUploadModalProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [preview, setPreview] = useState<string>('');
+  const [preview, setPreview] = useState<string>("");
   const [file, setFile] = useState<FileWithPath | null>(null);
 
   const handleClose = () => {
-    setPreview('');
+    setPreview("");
   };
 
   const handleCrop = (preview: string) => {
@@ -57,8 +57,8 @@ const OpenUploadModal = ({
 
   const handleBeforeFileLoad = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0].size > 2 * 1024 * 1024) {
-      renderNotification('Kích thước file quá lớn', NotiType.ERROR);
-      event.target.value = '';
+      renderNotification("Kích thước file quá lớn", NotiType.ERROR);
+      event.target.value = "";
     }
     if (event.target.files) {
       setFile(event.target.files[0]);
@@ -78,7 +78,7 @@ const OpenUploadModal = ({
           onClose();
           setFile(null);
         }
-      }
+      },
     });
   };
   return (
@@ -86,7 +86,7 @@ const OpenUploadModal = ({
       <Center>
         <Stack>
           <Avatar
-            label="Nhấn để tải ảnh lên"
+            label="Upload new image"
             width={390}
             height={295}
             onClose={handleClose}
@@ -100,14 +100,14 @@ const OpenUploadModal = ({
                 onClose();
               }}
             >
-              Huỷ
+              Cancel
             </Button>
             <Button
               loading={isLoadingUpload}
               disabled={file ? false : true}
               onClick={handleUpload}
             >
-              Lưu
+              Save
             </Button>
           </Group>
         </Stack>

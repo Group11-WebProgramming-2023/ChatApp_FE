@@ -5,6 +5,7 @@ export interface IUser extends BaseModel {
   firstName: string;
   lastName: string;
   status: IUserStatus;
+  avatar: string;
 }
 
 export enum IUserStatus {

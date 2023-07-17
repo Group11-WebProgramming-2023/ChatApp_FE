@@ -30,6 +30,18 @@ export const API_URLS = {
   },
 
   User: {
+    //profile
+    getProfile: () => ({
+      endPoint: "/user/profile",
+      method: "GET",
+      headers: HEADERS.authHeader(),
+    }),
+    updateProfile: () => ({
+      endPoint: "/user/update-profile",
+      method: "POST",
+      headers: HEADERS.authHeader(),
+    }),
+
     //friend
     getUsers: () => ({
       endPoint: "/user/all-users",
@@ -52,6 +64,7 @@ export const API_URLS = {
       method: "GET",
       headers: HEADERS.authHeader(),
     }),
+
     //audio call
     startAudioCall: () => ({
       endPoint: "/user/start-audio-call",

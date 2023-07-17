@@ -18,6 +18,9 @@ const userReducer: Reducer<UserState, UserAction> = (
       return { ...state, allRequests: action.payload };
     case UserActionType.GET_ALL_FRIENDS:
       return { ...state, allFriends: action.payload };
+    case UserActionType.GET_PROFILE:
+    case UserActionType.UPDATE_PROFILE:
+      return { ...state };
     default:
       return state;
   }

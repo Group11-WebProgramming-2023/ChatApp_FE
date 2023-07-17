@@ -13,6 +13,9 @@ export enum UserActionType {
   GET_ALL_USERS = "GET_ALL_USERS",
   GET_ALL_REQUEST = "GET_ALL_REQUEST",
   GET_ALL_FRIENDS = "GET_ALL_FRIENDS",
+
+  GET_PROFILE = "GET_PROFILE",
+  UPDATE_PROFILE = "UPDATE_PROFILE",
 }
 
 export interface GetAllUser {
@@ -30,7 +33,20 @@ export interface GetAllFriends {
   payload: IUser[];
 }
 
-export type UserAction = GetAllRequest | GetAllUser | GetAllFriends;
+export interface GetProfile {
+  type: UserActionType.GET_PROFILE;
+}
+
+export interface UpdateProfile {
+  type: UserActionType.UPDATE_PROFILE;
+}
+
+export type UserAction =
+  | GetAllRequest
+  | GetAllUser
+  | GetAllFriends
+  | GetProfile
+  | UpdateProfile;
 
 export type UserThunkAction = ThunkAction<
   void,

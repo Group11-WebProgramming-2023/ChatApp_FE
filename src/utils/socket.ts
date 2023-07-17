@@ -45,7 +45,7 @@ export enum SocketEvents {
   AUDIO_CALL_ACCEPTED = "audio_call_accepted",
   AUDIO_CALL_NOT_PICKED = "audio_call_not_picked",
   USER_IS_BUSY_AUDIO_CALL = "user_is_busy_audio_call",
-  AUDIO_CALL_MISSED = 'audio_call_missed',
+  AUDIO_CALL_MISSED = "audio_call_missed",
   AUDIO_CALL_END = "audio_call_end",
 
   //video call
@@ -55,7 +55,7 @@ export enum SocketEvents {
   VIDEO_CALL_ACCEPTED = "video_call_accepted",
   VIDEO_CALL_NOT_PICKED = "video_call_not_picked",
   USER_IS_BUSY_VIDEO_CALL = "user_is_busy_video_call",
-  VIDEO_CALL_MISSED = 'video_call_missed',
+  VIDEO_CALL_MISSED = "video_call_missed",
 }
 
 interface AudioCallNotificationPayload {
@@ -128,7 +128,10 @@ interface ClientToServerEvents {
   start_audio_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
   audio_call_accepted: (arg: unknown) => void;
   audio_call_denied: (arg: unknown) => void;
-  audio_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
+  audio_call_not_picked: (
+    arg: FriendRequestPayload,
+    callback: () => void
+  ) => void;
   user_is_busy_audio_call: (arg: unknown) => void;
   audio_call_end: (arg: FriendRequestPayload) => void;
 
@@ -136,7 +139,10 @@ interface ClientToServerEvents {
   start_video_call: (arg: StartAudioCallPayload, callback?: () => void) => void;
   video_call_accepted: (arg: unknown) => void;
   video_call_denied: (arg: unknown) => void;
-  video_call_not_picked: (arg: FriendRequestPayload, callback: () => void) => void;
+  video_call_not_picked: (
+    arg: FriendRequestPayload,
+    callback: () => void
+  ) => void;
   user_is_busy_video_call: (arg: unknown) => void;
 }
 
@@ -146,7 +152,6 @@ const connectSocket = (user_id: string) => {
   socket = io(`${CONFIG.APP_URL}/`, {
     query: `user_id=${user_id}`,
   });
-  console.log(socket);
 };
 
 export { socket, connectSocket };

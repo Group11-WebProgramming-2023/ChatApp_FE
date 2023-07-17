@@ -32,6 +32,6 @@ export const renderNotification = (message: string, type: NotiType) => {
     message,
     color: NotiTypeDict[type].color,
     withCloseButton: true,
-    autoClose: 1200,
+    autoClose: 3000,
   });
 };

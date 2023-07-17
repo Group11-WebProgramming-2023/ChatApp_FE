@@ -18,7 +18,7 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-import OtpInput from "react-otp-input";
+
 import { useState } from "react";
 
 export const Register = () => {
@@ -36,8 +36,7 @@ export const Register = () => {
   });
 
   const handleRegister = (values: RegisterPayload) => {
-    register(values);
-    open();
+    register(values, { onSuccess: () => open() });
   };
 
   const handleConfirmOTP = (otp: string, email: string) => {

@@ -156,6 +156,7 @@ function useAuthReducer(_state = initialState) {
     dispatch({ type: AuthAction.LOGOUT });
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.setItem("tab", "0");
     renderNotification("Logout successfully", NotiType.SUCCESS);
   };
 
